@@ -1,8 +1,12 @@
-# ConstruAI — Deck para Investidor (Lásaro do Carmo Jr.)
+# Rede Construai — Deck de Investimento (Lásaro do Carmo Jr.)
 
 Apresentação em HTML, autocontida, para rodar no navegador e exportar em PDF.
-Construída para o perfil do investidor **Lásaro do Carmo Jr.** (foco em
-operação que já fatura, ROI, vendas, escala e turnaround de margem).
+Captação para **expandir a franqueadora de 10 para 50 franqueados** (R$ 2 mi),
+construída para o perfil do investidor **Lásaro do Carmo Jr.** — posicionado
+como **sócio estratégico** (nome, rede, escala), e não apenas como capital.
+
+Todos os números (EBITDA, valuation, ramp, retorno) vêm do modelo
+"Construai Valuation" — ver `DADOS-FONTE.md`.
 
 ## Como abrir
 Abra o arquivo `index.html` em qualquer navegador (Chrome recomendado).

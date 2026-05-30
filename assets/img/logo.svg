@@ -1,16 +1,14 @@
-<svg width="280" height="64" viewBox="0 0 280 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ConstruAI">
+<svg width="300" height="66" viewBox="0 0 300 66" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rede Construai">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FF6A1A"/>
-      <stop offset="1" stop-color="#FF8C42"/>
+      <stop offset="0" stop-color="#E8631A"/>
+      <stop offset="1" stop-color="#FF8A3D"/>
     </linearGradient>
   </defs>
-  <!-- marca: blocos empilhados (construção) + ponto IA -->
-  <rect x="2"  y="34" width="16" height="22" rx="3" fill="#EAF1FB"/>
-  <rect x="20" y="22" width="16" height="34" rx="3" fill="#EAF1FB"/>
-  <rect x="38" y="10" width="16" height="46" rx="3" fill="url(#g)"/>
-  <circle cx="46" cy="6" r="5" fill="#2DD4BF"/>
-  <text x="68" y="42" font-family="Sora, Manrope, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="-1">
-    <tspan fill="#EAF1FB">Constru</tspan><tspan fill="url(#g)">AI</tspan>
-  </text>
+  <!-- marca: blocos de construção empilhados (loja/rede) -->
+  <rect x="2"  y="36" width="15" height="22" rx="2.5" fill="url(#g)"/>
+  <rect x="19" y="24" width="15" height="34" rx="2.5" fill="url(#g)" opacity=".82"/>
+  <rect x="36" y="12" width="15" height="46" rx="2.5" fill="url(#g)" opacity=".64"/>
+  <text x="64" y="34" font-family="Sora, Manrope, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#8A93A1">REDE</text>
+  <text x="63" y="56" font-family="Sora, Manrope, Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-0.5" fill="#E8631A">CONSTRUAI</text>
 </svg>
