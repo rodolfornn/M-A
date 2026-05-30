@@ -1,14 +1,15 @@
-<svg width="300" height="66" viewBox="0 0 300 66" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rede Construai">
+<svg width="320" height="74" viewBox="0 0 320 74" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rede Construai">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#E8631A"/>
-      <stop offset="1" stop-color="#FF8A3D"/>
+      <stop offset="0" stop-color="#F47920"/>
+      <stop offset="1" stop-color="#FFA63D"/>
     </linearGradient>
   </defs>
-  <!-- marca: blocos de construção empilhados (loja/rede) -->
-  <rect x="2"  y="36" width="15" height="22" rx="2.5" fill="url(#g)"/>
-  <rect x="19" y="24" width="15" height="34" rx="2.5" fill="url(#g)" opacity=".82"/>
-  <rect x="36" y="12" width="15" height="46" rx="2.5" fill="url(#g)" opacity=".64"/>
-  <text x="64" y="34" font-family="Sora, Manrope, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#8A93A1">REDE</text>
-  <text x="63" y="56" font-family="Sora, Manrope, Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-0.5" fill="#E8631A">CONSTRUAI</text>
+  <!-- marca: "C" em ferradura, aberto à direita -->
+  <path d="M 56 21 A 22 22 0 1 0 56 53" stroke="url(#g)" stroke-width="11.5" stroke-linecap="round" fill="none"/>
+  <!-- swoosh laranja no topo direito -->
+  <path d="M 50 15 q 12 -3 18 5" stroke="url(#g)" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <!-- wordmark -->
+  <text x="82" y="32" font-family="Poppins, Sora, Arial, sans-serif" font-size="12.5" font-weight="700" letter-spacing="5" fill="#9A9088">REDE</text>
+  <text x="81" y="58" font-family="Poppins, Sora, Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5" fill="#F47920">CONSTRUAI</text>
 </svg>

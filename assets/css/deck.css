@@ -6,19 +6,19 @@
 
 /* ----------------------------- BRAND TOKENS ----------------------------- */
 :root {
-  /* Marca — ajuste aqui os HEX oficiais da Construai quando confirmados */
-  --c-primary:   #E8631A;   /* laranja Construai (cor de ação)   */
-  --c-primary-2: #FF8A3D;   /* laranja claro (gradiente)         */
-  --c-ink:       #14181F;   /* tinta escura (slides hero)        */
-  --c-ink-2:     #1C2230;   /* superfície escura                 */
+  /* Marca Construai — extraída do site construai.com.br */
+  --c-primary:   #F47920;   /* laranja Construai (cor de ação)   */
+  --c-primary-2: #FFA63D;   /* laranja claro (gradiente)         */
+  --c-ink:       #131211;   /* preto quente (slides hero)        */
+  --c-ink-2:     #201D19;   /* superfície escura                 */
 
   /* Tema claro (padrão) */
-  --c-bg:        #F5F2EC;   /* papel quente                      */
-  --c-bg-2:      #FBFAF7;   /* fundo alternativo                 */
+  --c-bg:        #F6F3ED;   /* papel quente                      */
+  --c-bg-2:      #FCFBF8;   /* fundo alternativo                 */
   --c-surface:   #FFFFFF;   /* cartões                           */
-  --c-text:      #161B22;   /* texto principal                   */
-  --c-muted:     #5C6675;   /* texto secundário                  */
-  --c-line:      rgba(20,25,35,.12);
+  --c-text:      #1A1714;   /* texto principal                   */
+  --c-muted:     #6B6258;   /* texto secundário                  */
+  --c-line:      rgba(26,23,20,.13);
 
   /* Tokens "locais" que os componentes consomem (mudam no .slide--dark) */
   --bg:      var(--c-bg);
@@ -31,7 +31,7 @@
   --warn: #B45309;
 
   --font-sans: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: "Sora", "Manrope", var(--font-sans);
+  --font-display: "Poppins", "Sora", "Manrope", var(--font-sans);
 
   --maxw: 1120px;
   --radius: 16px;
@@ -222,10 +222,18 @@ p + p { margin-top: 1em; }
 /* -------------------------- IMPRESSÃO / PDF ----------------------------- */
 @media print {
   @page { size: 1280px 720px; margin: 0; }
-  body { overflow: visible; }
+  html, body { overflow: visible; }
   .deck { height: auto; overflow: visible; display: block; }
   .topbar, .brandmark, .nav, .dots, .hint { display: none !important; }
-  .slide { page-break-after: always; break-after: page; height: 720px; min-height: 720px; }
+  .slide { page-break-after: always; break-after: page; page-break-inside: avoid; break-inside: avoid;
+           height: 720px; min-height: 720px; max-height: 720px; overflow: hidden; padding: 40px 60px; }
   .slide__inner { animation: none; }
-  .card { box-shadow: none; }
+  .card { box-shadow: none; padding: 18px; }
+  h1.title { font-size: 3.2rem; }
+  h2.title { font-size: 2.3rem; }
+  .lead { font-size: 1.04rem; }
+  .cols { gap: 18px; }
+  .tbl th, .tbl td { padding: 10px 14px; }
+  .growth { height: 180px; }
+  .glow { display: none; }
 }
