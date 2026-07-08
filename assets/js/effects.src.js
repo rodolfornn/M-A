@@ -392,6 +392,25 @@ import { Howl } from "howler";
         scale: 0.94, autoAlpha: 0, duration: 0.9, ease: "power3.out",
         scrollTrigger: { trigger: ".quote-box", start: "top 80%" }
       });
+      // showcase: a foto real da loja desliza em parallax
+      var showcaseImg = document.getElementById("showcaseImg");
+      if (showcaseImg) {
+        gsap.fromTo(showcaseImg, { yPercent: -10 }, {
+          yPercent: 10, ease: "none",
+          scrollTrigger: { trigger: ".showcase", start: "top bottom", end: "bottom top", scrub: true }
+        });
+        gsap.from(".showcase-content > *", {
+          y: 40, autoAlpha: 0, duration: 0.9, stagger: 0.12, ease: "power3.out",
+          scrollTrigger: { trigger: ".showcase", start: "top 65%" }
+        });
+      }
+      // fotos das lojas revelam com leve zoom-out
+      gsap.utils.toArray(".store-photo img").forEach(function (img) {
+        gsap.from(img, {
+          scale: 1.18, duration: 1.2, ease: "power2.out", clearProps: "transform",
+          scrollTrigger: { trigger: img, start: "top 90%" }
+        });
+      });
     }
   }
 

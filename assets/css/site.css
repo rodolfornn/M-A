@@ -408,6 +408,74 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
 .quote-alt { margin-top: 14px; font-size: 14px; color: var(--ink-soft); }
 .quote-alt a { color: var(--blue-strong); font-weight: 600; }
 
+/* ---------- showcase (foto real com parallax) ---------- */
+.showcase {
+  position: relative; overflow: hidden; min-height: 72vh;
+  display: flex; align-items: center; color: #fff;
+}
+.showcase-media { position: absolute; inset: -12% 0; }
+.showcase-media img {
+  width: 100%; height: 100%; object-fit: cover;
+  animation: kenburns 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes kenburns { from { scale: 1; } to { scale: 1.08; } }
+.showcase-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(11, 35, 64, .88) 18%, rgba(11, 35, 64, .55) 48%, rgba(11, 35, 64, .18) 80%);
+}
+.showcase-content { position: relative; z-index: 1; padding-top: 90px; padding-bottom: 90px; }
+.showcase-content .kicker { color: var(--brand); }
+.showcase-content h2 {
+  font-size: clamp(32px, 4.6vw, 52px); font-weight: 800; letter-spacing: -.01em;
+  margin-bottom: 14px; text-shadow: 0 4px 30px rgba(0, 0, 0, .4);
+}
+.showcase-content > p:not(.kicker) {
+  color: rgba(255, 255, 255, .85); font-size: 17px; margin-bottom: 28px;
+}
+
+/* ---------- fotos dos cards de loja ---------- */
+.store-card.has-photo { padding-top: 0; overflow: hidden; }
+.store-photo {
+  margin: 0 -28px 22px; height: 172px; overflow: hidden; position: relative;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.store-photo img, .store-photo svg {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+.store-card:hover .store-photo img { transform: scale(1.07); }
+.store-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(11, 35, 64, .35), transparent 45%);
+}
+.store-card.has-photo .store-tag { top: 152px; }
+
+/* ---------- modal do vídeo ---------- */
+.video-modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; }
+.video-modal[hidden] { display: none; }
+.video-backdrop {
+  position: absolute; inset: 0; background: rgba(8, 18, 32, .85);
+  backdrop-filter: blur(8px); cursor: pointer;
+}
+.video-frame {
+  position: relative; width: min(960px, 92vw);
+  animation: videoIn .35s cubic-bezier(.2, .9, .3, 1.2);
+}
+@keyframes videoIn { from { opacity: 0; transform: scale(.92) translateY(20px); } }
+.video-ratio {
+  position: relative; padding-top: 56.25%; border-radius: 18px; overflow: hidden;
+  background: #000; box-shadow: 0 40px 120px rgba(0, 0, 0, .6);
+}
+.video-ratio iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-close {
+  position: absolute; top: -46px; right: 0; width: 38px; height: 38px;
+  border-radius: 50%; border: 1px solid rgba(255, 255, 255, .3);
+  background: rgba(255, 255, 255, .1); color: #fff; font-size: 16px; cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.video-close:hover { background: var(--brand); transform: rotate(90deg); }
+
 /* ---------- lojas ---------- */
 .stores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
 .store-card {

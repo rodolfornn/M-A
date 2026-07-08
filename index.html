@@ -204,7 +204,7 @@
           </ul>
           <div class="hero-ctas" style="margin: 0;">
             <a href="#lojas" class="btn btn-primary">Conheça nossas lojas</a>
-            <a href="https://www.youtube.com/watch?v=hcWIwwkCmCg" class="btn btn-ghost-dark" target="_blank" rel="noopener">▶ Assista nosso vídeo</a>
+            <button type="button" class="btn btn-ghost-dark" id="openVideo">▶ Assista nosso vídeo</button>
           </div>
         </div>
         <div class="about-visual reveal">
@@ -212,6 +212,20 @@
           <div class="about-card ac-2"><strong>Visão</strong><p>Inovar no mercado de fornecimento de materiais de construção, com foco no atendimento eficiente, no crescimento sustentável e na responsabilidade social.</p></div>
           <div class="about-card ac-3"><strong>Valores</strong><p>Honestidade, as pessoas, qualidade do atendimento, satisfação do cliente, liderança de mercado, inovação e transparência.</p></div>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ SHOWCASE (foto real com parallax) ============ -->
+    <section class="showcase" aria-label="Fachada da ConstruMaia Plus">
+      <div class="showcase-media">
+        <img src="assets/img/loja-plus.webp" alt="Fachada da loja ConstruMaia Plus, no Major Prates" loading="lazy" id="showcaseImg">
+      </div>
+      <div class="showcase-overlay"></div>
+      <div class="container showcase-content reveal">
+        <p class="kicker">Loja de verdade</p>
+        <h2>Estoque de verdade,<br>gente de verdade.</h2>
+        <p>ConstruMaia Plus — Av. Francisco Gaetani, 388 · Major Prates</p>
+        <a href="#lojas" class="btn btn-primary">Visite uma loja</a>
       </div>
     </section>
 
@@ -274,7 +288,8 @@
           <p class="section-sub">Segunda a sexta, das 08h às 18h · Sábado, das 08h às 12h</p>
         </div>
         <div class="stores-grid">
-          <article class="store-card reveal">
+          <article class="store-card has-photo reveal">
+            <figure class="store-photo"><img src="assets/img/loja-matriz.webp" alt="Fachada da loja ConstruMaia" loading="lazy"></figure>
             <span class="store-tag">Matriz</span>
             <h3>ConstruMaia — Matriz</h3>
             <p class="store-addr">Av. Dep. Plínio Ribeiro, 490<br>Vera Cruz · Montes Claros/MG</p>
@@ -284,7 +299,10 @@
               <a class="btn btn-ghost-dark btn-sm" href="tel:+553832151819">(38) 3215-1819</a>
             </div>
           </article>
-          <article class="store-card reveal">
+          <article class="store-card has-photo reveal">
+            <figure class="store-photo store-photo-brand" aria-hidden="true">
+              <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice"><rect width="400" height="180" fill="#1b64b1"/><path d="M60 130 L160 60 L230 110" fill="none" stroke="#f2a238" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><path d="M120 150 L240 55 L340 140" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><rect width="400" height="180" fill="url(#g)" opacity="0"/></svg>
+            </figure>
             <span class="store-tag">Filial</span>
             <h3>ConstruMaia — João XXIII</h3>
             <p class="store-addr">Av. João XXIII, 1474<br>Edgar Pereira · Montes Claros/MG</p>
@@ -294,7 +312,8 @@
               <a class="btn btn-ghost-dark btn-sm" href="tel:+553832232392">(38) 3223-2392</a>
             </div>
           </article>
-          <article class="store-card reveal">
+          <article class="store-card has-photo reveal">
+            <figure class="store-photo"><img src="assets/img/loja-plus.webp" alt="Fachada da loja ConstruMaia Plus" loading="lazy"></figure>
             <span class="store-tag">Plus</span>
             <h3>ConstruMaia — Plus</h3>
             <p class="store-addr">Av. Francisco Gaetani, 388<br>Major Prates · Montes Claros/MG</p>
@@ -418,6 +437,17 @@
   <a href="https://wa.me/553832151566?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ConstruMaia." class="whats-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
   </a>
+
+  <!-- modal do vídeo institucional (player dentro do site) -->
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Vídeo institucional da ConstruMaia" hidden>
+    <div class="video-backdrop" data-close-video></div>
+    <div class="video-frame">
+      <button class="video-close" data-close-video aria-label="Fechar vídeo">✕</button>
+      <div class="video-ratio">
+        <iframe id="videoIframe" data-src="https://www.youtube-nocookie.com/embed/hcWIwwkCmCg?autoplay=1&rel=0" title="Vídeo institucional ConstruMaia" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 
   <button class="back-top" id="backTop" aria-label="Voltar ao topo">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>

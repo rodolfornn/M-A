@@ -166,6 +166,33 @@
     });
   });
 
+  /* ---------- modal do vídeo institucional ---------- */
+  var videoModal = document.getElementById("videoModal");
+  var videoIframe = document.getElementById("videoIframe");
+  var openVideoBtn = document.getElementById("openVideo");
+
+  function openVideo() {
+    if (!videoModal) return;
+    if (!videoIframe.src) videoIframe.src = videoIframe.dataset.src; // carrega só ao abrir
+    videoModal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+  function closeVideo() {
+    if (!videoModal) return;
+    videoModal.hidden = true;
+    videoIframe.src = ""; // para o vídeo ao fechar
+    document.body.style.overflow = "";
+  }
+  if (openVideoBtn) openVideoBtn.addEventListener("click", openVideo);
+  if (videoModal) {
+    videoModal.addEventListener("click", function (e) {
+      if (e.target.closest("[data-close-video]")) closeVideo();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !videoModal.hidden) closeVideo();
+    });
+  }
+
   /* ---------- ano no rodapé ---------- */
   document.getElementById("year").textContent = new Date().getFullYear();
 
