@@ -214,6 +214,17 @@
           <div class="about-card ac-3"><strong>Valores</strong><p>Honestidade, as pessoas, qualidade do atendimento, satisfação do cliente, liderança de mercado, inovação e transparência.</p></div>
         </div>
       </div>
+      <!-- vídeo institucional incorporado (toca aqui mesmo) -->
+      <div class="container video-wrap reveal">
+        <div class="video-player" id="videoPlayer">
+          <img src="assets/img/video-capa.webp" alt="Capa do vídeo institucional da ConstruMaia" loading="lazy">
+          <div class="video-shade" aria-hidden="true"></div>
+          <button type="button" class="video-play" id="playVideo" aria-label="Assistir o vídeo institucional da ConstruMaia">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M8 5v14l12-7z"/></svg>
+          </button>
+          <span class="video-caption">▶ Aqui, as pessoas fazem a diferença — conheça a ConstruMaia</span>
+        </div>
+      </div>
     </section>
 
     <!-- ============ SHOWCASE (foto real com parallax) ============ -->
@@ -491,17 +502,6 @@
   <a href="https://wa.me/553832151566?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ConstruMaia." class="whats-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
   </a>
-
-  <!-- modal do vídeo institucional (player dentro do site) -->
-  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Vídeo institucional da ConstruMaia" hidden>
-    <div class="video-backdrop" data-close-video></div>
-    <div class="video-frame">
-      <button class="video-close" data-close-video aria-label="Fechar vídeo">✕</button>
-      <div class="video-ratio">
-        <iframe id="videoIframe" data-src="https://www.youtube-nocookie.com/embed/hcWIwwkCmCg?autoplay=1&rel=0" title="Vídeo institucional ConstruMaia" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-  </div>
 
   <button class="back-top" id="backTop" aria-label="Voltar ao topo">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>

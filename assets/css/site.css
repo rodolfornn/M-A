@@ -469,30 +469,47 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
 }
 .store-card.has-photo .store-tag { top: 152px; }
 
-/* ---------- modal do vídeo ---------- */
-.video-modal { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; }
-.video-modal[hidden] { display: none; }
-.video-backdrop {
-  position: absolute; inset: 0; background: rgba(8, 18, 32, .85);
-  backdrop-filter: blur(8px); cursor: pointer;
+/* ---------- vídeo institucional embutido ---------- */
+.video-wrap { margin-top: 70px; }
+.video-player {
+  position: relative; aspect-ratio: 16 / 9; max-width: 940px; margin: 0 auto;
+  border-radius: 22px; overflow: hidden; cursor: pointer; background: #000;
+  box-shadow: var(--shadow-lg);
 }
-.video-frame {
-  position: relative; width: min(960px, 92vw);
-  animation: videoIn .35s cubic-bezier(.2, .9, .3, 1.2);
+.video-player > img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
 }
-@keyframes videoIn { from { opacity: 0; transform: scale(.92) translateY(20px); } }
-.video-ratio {
-  position: relative; padding-top: 56.25%; border-radius: 18px; overflow: hidden;
-  background: #000; box-shadow: 0 40px 120px rgba(0, 0, 0, .6);
+.video-player:hover > img { transform: scale(1.04); }
+.video-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(11, 35, 64, .65), rgba(11, 35, 64, .15) 55%);
+  transition: opacity .3s ease;
 }
-.video-ratio iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.video-close {
-  position: absolute; top: -46px; right: 0; width: 38px; height: 38px;
-  border-radius: 50%; border: 1px solid rgba(255, 255, 255, .3);
-  background: rgba(255, 255, 255, .1); color: #fff; font-size: 16px; cursor: pointer;
-  transition: background .2s, transform .2s;
+.video-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 86px; height: 86px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; color: #fff; padding-left: 6px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+  box-shadow: 0 12px 40px rgba(242, 162, 56, .5), 0 0 0 0 rgba(242, 162, 56, .5);
+  animation: playPulse 2.2s infinite; transition: transform .25s ease;
 }
-.video-close:hover { background: var(--brand); transform: rotate(90deg); }
+.video-play:hover { transform: translate(-50%, -50%) scale(1.1); }
+@keyframes playPulse {
+  0% { box-shadow: 0 12px 40px rgba(242, 162, 56, .5), 0 0 0 0 rgba(242, 162, 56, .45); }
+  70% { box-shadow: 0 12px 40px rgba(242, 162, 56, .5), 0 0 0 26px rgba(242, 162, 56, 0); }
+  100% { box-shadow: 0 12px 40px rgba(242, 162, 56, .5), 0 0 0 0 rgba(242, 162, 56, 0); }
+}
+.video-caption {
+  position: absolute; left: 28px; bottom: 22px; right: 28px; color: #fff;
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(14px, 1.8vw, 18px);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .55);
+}
+.video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-player.is-playing > img,
+.video-player.is-playing .video-shade,
+.video-player.is-playing .video-play,
+.video-player.is-playing .video-caption { display: none; }
 
 /* ---------- lojas ---------- */
 .stores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }

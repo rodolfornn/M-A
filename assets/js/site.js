@@ -166,31 +166,29 @@
     });
   });
 
-  /* ---------- modal do vídeo institucional ---------- */
-  var videoModal = document.getElementById("videoModal");
-  var videoIframe = document.getElementById("videoIframe");
-  var openVideoBtn = document.getElementById("openVideo");
+  /* ---------- vídeo institucional embutido na página ---------- */
+  var videoPlayer = document.getElementById("videoPlayer");
+  var VIDEO_SRC = "https://www.youtube-nocookie.com/embed/hcWIwwkCmCg?autoplay=1&rel=0";
 
-  function openVideo() {
-    if (!videoModal) return;
-    if (!videoIframe.src) videoIframe.src = videoIframe.dataset.src; // carrega só ao abrir
-    videoModal.hidden = false;
-    document.body.style.overflow = "hidden";
+  function playVideo() {
+    if (!videoPlayer || videoPlayer.classList.contains("is-playing")) return;
+    var iframe = document.createElement("iframe");
+    iframe.src = VIDEO_SRC;
+    iframe.title = "Vídeo institucional ConstruMaia";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.allowFullscreen = true;
+    videoPlayer.classList.add("is-playing");
+    videoPlayer.appendChild(iframe);
   }
-  function closeVideo() {
-    if (!videoModal) return;
-    videoModal.hidden = true;
-    videoIframe.src = ""; // para o vídeo ao fechar
-    document.body.style.overflow = "";
-  }
-  if (openVideoBtn) openVideoBtn.addEventListener("click", openVideo);
-  if (videoModal) {
-    videoModal.addEventListener("click", function (e) {
-      if (e.target.closest("[data-close-video]")) closeVideo();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !videoModal.hidden) closeVideo();
-    });
+  if (videoPlayer) {
+    videoPlayer.addEventListener("click", playVideo);
+    var openVideoBtn = document.getElementById("openVideo");
+    if (openVideoBtn) {
+      openVideoBtn.addEventListener("click", function () {
+        videoPlayer.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(playVideo, 500);
+      });
+    }
   }
 
   /* ---------- ano no rodapé ---------- */
