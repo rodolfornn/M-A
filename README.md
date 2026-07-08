@@ -8,9 +8,18 @@ https://www.construmaia.com/ por uma página única, rápida e responsiva.
 Abra `index.html` em qualquer navegador — o site é 100% estático, sem build.
 
 ## O que tem no site
-- **Hero 3D (Three.js)** — campo de tijolos flutuantes em WebGL com parallax
-  de mouse; a câmera avança pela cena conforme o scroll (GSAP ScrollTrigger).
-  Sem WebGL ou com `prefers-reduced-motion`, cai num fundo em CSS puro.
+- **3 alcovas WebGL (Three.js)** — cada seção-chave tem sua própria cena 3D
+  com câmera guiada pelo scroll (GSAP ScrollTrigger): hero (tijolos que se
+  montam + parallax de mouse), diferenciais (constelação de partículas) e
+  contato (horizonte wireframe animado). Sem WebGL ou com
+  `prefers-reduced-motion`, cai num fundo em CSS puro.
+- **Soundscape (Howler.js)** — whoosh nas transições de seção e micro-sons
+  nas interações, desligado por padrão (botão de som no header, preferência
+  salva). Sons sintetizados embutidos em `assets/js/sounds.js` — substituíveis
+  por áudios oficiais.
+- **Coreografia GSAP** — título do hero entra palavra a palavra, parallax,
+  header que se esconde ao rolar para baixo, cards com tilt 3D, botões
+  magnéticos e marquee de departamentos.
 - Tagline oficial ("Tudo para sua construção, da base ao acabamento") e
   contadores animados (30 anos, 3 unidades…)
 - **Departamentos** — 9 cards interativos (clicar em um card já o adiciona ao
@@ -27,19 +36,27 @@ Abra `index.html` em qualquer navegador — o site é 100% estático, sem build.
 
 ## Estrutura
 ```
-index.html               # página única
-assets/css/site.css      # design system — cores da marca em :root (topo)
-assets/js/site.js        # interações (menu, reveal, contadores, orçamento, FAQ)
-assets/js/hero3d.js      # cena WebGL do hero (Three.js + ScrollTrigger)
-assets/vendor/           # three.js r185 e GSAP 3.15 vendorizados (sem CDN)
-assets/img/logo.webp     # logotipo oficial ConstruMaia
-assets/img/favicon.svg   # telhado do logo (azul + âmbar)
+index.html                    # página única
+assets/css/site.css           # design system — cores da marca em :root (topo)
+assets/js/site.js             # interações base (menu, reveal, orçamento, FAQ)
+assets/js/effects.src.js      # FONTE do motor de efeitos (Three/Howler/GSAP)
+assets/js/effects.bundle.js   # bundle gerado (não editar à mão)
+assets/js/sounds.js           # soundscape sintetizado (WAV base64)
+assets/vendor/                # GSAP 3.15 + ScrollTrigger (sem CDN)
+assets/img/logo.webp          # logotipo oficial ConstruMaia
+assets/img/favicon.svg        # telhado do logo (azul + âmbar)
 ```
 
-> **Howler.js (sons):** deixado de fora por ora — não há arquivos de áudio da
-> marca, e som automático em site de loja costuma prejudicar a experiência.
-> Se quiserem uma trilha/efeitos nas transições, é só fornecer os áudios que
-> a integração é simples.
+Para editar os efeitos, altere `effects.src.js` e regere o bundle:
+
+```
+npm i three howler esbuild
+npx esbuild assets/js/effects.src.js --bundle --minify --format=iife \
+  --outfile=assets/js/effects.bundle.js
+```
+
+> O bundle é um script clássico: os efeitos funcionam até abrindo o
+> `index.html` direto do disco (`file://`), onde módulos ES são bloqueados.
 
 ## Dados usados (fonte: webarchive do site oficial atual)
 - Central/WhatsApp: **(38) 3215-1566** (`wa.me/553832151566`, confirmado no
