@@ -433,6 +433,24 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
 .showcase-content > p:not(.kicker) {
   color: rgba(255, 255, 255, .85); font-size: 17px; margin-bottom: 28px;
 }
+.showcase-hint { font-weight: 600; letter-spacing: .02em; animation: hintNudge 2s ease-in-out infinite; width: fit-content; }
+@keyframes hintNudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+/* zoom "entrando na loja" (ativado pelo GSAP) */
+.showcase.fx-zoom .showcase-media img { animation: none; will-change: transform; }
+.showcase-vignette {
+  position: absolute; inset: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 55%, transparent 42%, rgba(6, 16, 30, .88) 100%);
+}
+.showcase-enter {
+  position: absolute; inset: 0; z-index: 2; display: grid; place-content: center;
+  text-align: center; gap: 10px; opacity: 0; visibility: hidden; pointer-events: none;
+}
+.showcase-enter h3 {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+  text-shadow: 0 6px 40px rgba(0, 0, 0, .6);
+}
+.showcase-enter p { color: rgba(255, 255, 255, .85); margin-bottom: 16px; }
+.showcase-enter .btn { justify-self: center; pointer-events: auto; }
 
 /* ---------- fotos dos cards de loja ---------- */
 .store-card.has-photo { padding-top: 0; overflow: hidden; }
@@ -526,11 +544,21 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
 
 /* ---------- trabalhe conosco ---------- */
 .work-strip {
+  position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: space-between; gap: 40px;
   background: linear-gradient(135deg, var(--blue), var(--blue-strong));
   border-radius: 24px; padding: 54px 56px; color: #fff;
   box-shadow: 0 24px 60px rgba(27, 100, 177, .35);
 }
+.work-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 35%; z-index: 0;
+}
+.work-strip::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(100deg, rgba(16, 66, 118, .96) 35%, rgba(27, 100, 177, .78));
+}
+.work-strip > .work-text, .work-strip > .btn { position: relative; z-index: 2; }
 .work-strip .kicker { color: var(--brand); }
 .work-strip h2 { font-size: clamp(24px, 3.4vw, 34px); font-weight: 800; margin-bottom: 14px; }
 .work-strip p:last-child { color: rgba(255, 255, 255, .8); max-width: 560px; }

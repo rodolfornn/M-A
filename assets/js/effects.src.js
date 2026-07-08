@@ -392,17 +392,30 @@ import { Howl } from "howler";
         scale: 0.94, autoAlpha: 0, duration: 0.9, ease: "power3.out",
         scrollTrigger: { trigger: ".quote-box", start: "top 80%" }
       });
-      // showcase: a foto real da loja desliza em parallax
+      // showcase: "entrando na loja" — a seção trava e o scroll vira um
+      // zoom em direção à porta de entrada, terminando no bem-vindo
+      var showcase = document.querySelector(".showcase");
       var showcaseImg = document.getElementById("showcaseImg");
-      if (showcaseImg) {
-        gsap.fromTo(showcaseImg, { yPercent: -10 }, {
-          yPercent: 10, ease: "none",
-          scrollTrigger: { trigger: ".showcase", start: "top bottom", end: "bottom top", scrub: true }
-        });
+      if (showcase && showcaseImg) {
+        showcase.classList.add("fx-zoom");
+        gsap.set(showcaseImg, { transformOrigin: "50% 58%" }); // origem = porta da loja
         gsap.from(".showcase-content > *", {
           y: 40, autoAlpha: 0, duration: 0.9, stagger: 0.12, ease: "power3.out",
-          scrollTrigger: { trigger: ".showcase", start: "top 65%" }
+          scrollTrigger: { trigger: showcase, start: "top 65%" }
         });
+        var enterTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: showcase, start: "top top", end: "+=140%",
+            scrub: 0.5, pin: true, anticipatePin: 1
+          }
+        });
+        enterTl
+          .fromTo(showcaseImg, { scale: 1 }, { scale: 2.2, ease: "power1.in", duration: 1 }, 0)
+          .to(".showcase-content", { autoAlpha: 0, y: -70, ease: "power1.in", duration: 0.35 }, 0.1)
+          .to(".showcase-vignette", { opacity: 1, duration: 0.6 }, 0.25)
+          .fromTo(".showcase-enter",
+            { autoAlpha: 0, scale: 0.92 },
+            { autoAlpha: 1, scale: 1, ease: "power2.out", duration: 0.35 }, 0.6);
       }
       // fotos das lojas revelam com leve zoom-out
       gsap.utils.toArray(".store-photo img").forEach(function (img) {
