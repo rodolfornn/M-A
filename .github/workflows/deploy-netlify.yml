@@ -1,17 +1,18 @@
 name: Deploy to Netlify
 
-# Publica o deck no Netlify a cada push na branch do pitch.
+# Publica o site no Netlify a cada push nas branches abaixo.
 # Roda na infra do GitHub (sem o bloqueio de rede do ambiente de dev).
 #
 # Pre-requisito: cadastrar 2 secrets no repositorio
 #   Settings -> Secrets and variables -> Actions -> New repository secret
 #     NETLIFY_AUTH_TOKEN  -> seu personal access token do Netlify
 #     NETLIFY_SITE_ID     -> o API ID do site (Site settings -> General -> Site ID)
-#                            Para o primeiro deploy/criar site, veja o README.
+#                            Para o primeiro deploy/criar site, veja DEPLOY.md.
 
 on:
   push:
     branches:
+      - claude/construmaia-website-redesign-x21l6u
       - claude/construai-investor-pitch-44iKA
   workflow_dispatch: {}
 
@@ -27,7 +28,7 @@ jobs:
         with:
           publish-dir: '.'
           production-deploy: true
-          deploy-message: "Deploy ${{ github.sha }} - Rede Construai pitch"
+          deploy-message: "Deploy ${{ github.sha }} - ${{ github.ref_name }}"
           enable-pull-request-comment: false
           enable-commit-comment: true
         env:
