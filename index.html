@@ -1,389 +1,421 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rede Construai — Proposta de Investimento | Lásaro do Carmo Jr.</title>
-<meta name="description" content="Rede Construai — Captação para expansão da franqueadora. Apresentação ao investidor Lásaro do Carmo Jr." />
-<link rel="icon" href="assets/img/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/deck.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConstruMaia — Tudo para sua construção, da base ao acabamento</title>
+  <meta name="description" content="Há 30 anos em Montes Claros/MG. Materiais de construção, hidráulica, elétrica, tintas, pisos, ferramentas e muito mais. Entrega a domicílio e atendimento pelo WhatsApp.">
+  <meta property="og:title" content="ConstruMaia — Materiais de Construção em Montes Claros">
+  <meta property="og:description" content="Tudo para sua construção, da base ao acabamento. Há 30 anos construindo com você.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 
-<div class="topbar"><div class="topbar__fill"></div></div>
-<div class="brandmark"><span class="dot"></span> CONSTRUAI</div>
-<div class="dots"></div>
-<div class="hint">Use <kbd>←</kbd> <kbd>→</kbd> ou role a página</div>
-<div class="nav">
-  <button class="nav__btn" data-prev aria-label="Anterior">‹</button>
-  <span class="nav__count">01 / 16</span>
-  <button class="nav__btn" data-next aria-label="Próximo">›</button>
-</div>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
 
-<main class="deck">
-
-  <!-- 01 — CAPA -->
-  <section class="slide slide--dark">
-    <span class="glow glow--primary" style="top:-120px;right:-80px"></span>
-    <span class="glow glow--primary" style="bottom:-160px;left:-120px;opacity:.1"></span>
-    <div class="grid-bg"></div>
-    <div class="slide__inner cover">
-      <div class="brand"><img src="assets/img/logo.svg" alt="Rede Construai" /></div>
-      <span class="eyebrow">Proposta de Investimento · Confidencial</span>
-      <h1 class="title">270 lojas construíram a marca.<br>Agora vamos <span class="text-grad">multiplicar a franquia.</span></h1>
-      <p class="lead" style="margin-top:22px;color:#C7D0DC">Captação para expandir a franqueadora de <strong style="color:#fff">10 para 50 franqueados</strong> — uma operação consolidada, com receita recorrente e margem de <strong style="color:#fff">82%</strong> no ramp completo.</p>
-      <div class="to">
-        <small>Apresentado a</small>
-        <b>Lásaro do Carmo Jr.</b>
-        <span style="color:var(--muted);font-size:.92rem">Investidor estratégico · Conselheiro</span>
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#inicio" class="logo" aria-label="ConstruMaia — início">
+        <img src="assets/img/logo.webp" alt="ConstruMaia" height="44">
+      </a>
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <a href="#inicio" class="nav-link is-active">Início</a>
+        <a href="#departamentos" class="nav-link">Departamentos</a>
+        <a href="#diferenciais" class="nav-link">Diferenciais</a>
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#orcamento" class="nav-link">Orçamento</a>
+        <a href="#lojas" class="nav-link">Lojas</a>
+        <a href="#contato" class="nav-link">Contato</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-whats btn-sm" href="https://wa.me/553832151566?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ConstruMaia%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+          <span>WhatsApp</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
-    <div class="disclaimer">Documento de trabalho. Premissas e projeções sujeitas a confirmação contábil, jurídica e de due diligence. Não constitui oferta de valores mobiliários.</div>
-  </section>
+  </header>
 
-  <!-- 02 — ABERTURA PERSONALIZADA -->
-  <section class="slide">
-    <span class="glow glow--primary" style="top:-80px;left:-60px"></span>
-    <div class="slide__inner">
-      <span class="eyebrow">Por que esta conversa é com o senhor</span>
-      <div class="cols cols-2 items-center">
-        <div>
-          <h2 class="title">O senhor transforma <span class="text-grad">redes de pessoas</span> em impérios.</h2>
-          <p class="lead" style="margin-top:18px">Jequiti: de <strong>R$ 20 mi a R$ 523 mi</strong> sobre uma rede de consultoras. Rede São João, Grupo Bom Pastor — o senhor entende, como poucos, o valor de uma <strong>rede consolidada</strong> e de uma <strong>marca forte</strong>.</p>
-          <p class="lead">A Rede Construai é exatamente isso: <strong>270 lojas</strong>, uma marca construída no varejo de material de construção, pronta para escalar via franquia. Não é uma aposta — é uma operação que já roda.</p>
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        <canvas id="heroCanvas"></canvas>
+      </div>
+      <div class="container hero-inner">
+        <p class="hero-badge reveal"><span class="dot"></span> Há 30 anos construindo em Montes Claros — MG</p>
+        <h1 class="hero-title reveal">Tudo para sua construção,<br><span class="grad">da base ao acabamento.</span></h1>
+        <p class="hero-sub reveal">A ConstruMaia é a loja completa de materiais de construção de Montes Claros. Do alicerce à pintura final, você encontra tudo em um só lugar — com entrega a domicílio e atendimento de quem entende de obra.</p>
+        <div class="hero-ctas reveal">
+          <a href="#orcamento" class="btn btn-primary">Pedir orçamento
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#departamentos" class="btn btn-ghost">Ver departamentos</a>
         </div>
-        <div class="card card--hot">
-          <h3>O que buscamos no senhor</h3>
-          <ul class="list list--check" style="margin-top:14px">
-            <li><b>Nome e credibilidade</b><span class="sub">que aceleram a entrada de franqueados.</span></li>
-            <li><b>Rede e portas</b><span class="sub">acesso a operadores e capital do varejo.</span></li>
-            <li><b>Escola de escala</b><span class="sub">o método que multiplicou a Jequiti, aplicado aqui.</span></li>
-            <li><b>Capital</b><span class="sub">R$ 2 mi para destravar 40 novas lojas.</span></li>
-          </ul>
+        <div class="hero-stats reveal">
+          <div class="stat"><strong><span class="counter" data-target="30">0</span>+</strong><span>anos de mercado</span></div>
+          <div class="stat"><strong><span class="counter" data-target="3">0</span></strong><span>lojas na cidade</span></div>
+          <div class="stat"><strong><span class="counter" data-target="9">0</span></strong><span>departamentos completos</span></div>
+          <div class="stat"><strong><span class="counter" data-target="1000">0</span>+</strong><span>itens em estoque</span></div>
         </div>
       </div>
-    </div>
-  </section>
+      <a href="#departamentos" class="hero-scroll" aria-label="Rolar para departamentos"><span></span></a>
+    </section>
 
-  <!-- 03 — A OPORTUNIDADE EM NÚMEROS -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">A oportunidade em um minuto</span>
-      <h2 class="title">Uma base consolidada. Um motor de <span class="text-grad">receita recorrente</span>.</h2>
-      <p class="lead" style="margin-top:14px">Entre as <strong>30 maiores do Brasil</strong> no setor · 1ª rede do segmento em MG · "Na Construai, tá feito."</p>
-      <div class="cols cols-4" style="margin-top:32px">
-        <div><div class="kpi__num">270</div><div class="kpi__label">lojas na rede, operadas por 140 empresários</div></div>
-        <div><div class="kpi__num">50+</div><div class="kpi__label">serviços prestados às lojas da rede</div></div>
-        <div><div class="kpi__num">2%</div><div class="kpi__label">royalty recorrente sobre o faturamento das franqueadas</div></div>
-        <div><div class="kpi__num">10→50</div><div class="kpi__label">franqueados: o salto que esta captação financia</div></div>
-      </div>
-      <div class="cols cols-3" style="margin-top:30px">
-        <div class="card"><div class="card__icon">💰</div><h3>R$ 2 milhões</h3><p>Aporte buscado para incentivar a entrada de 40 novas lojas qualificadas, em contratos de 5 anos.</p></div>
-        <div class="card"><div class="card__icon">📈</div><h3>R$ 4,9 mi/ano</h3><p>EBITDA projetado da franqueadora no ramp completo (50 franqueados).</p></div>
-        <div class="card"><div class="card__icon">⚙️</div><h3>~82% de margem</h3><p>Sustentada por alavancagem operacional: a estrutura que atende as lojas já existe.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04 — O NEGÓCIO -->
-  <section class="slide">
-    <div class="grid-bg"></div>
-    <div class="slide__inner">
-      <span class="eyebrow">O negócio</span>
-      <div class="cols cols-2 items-center">
-        <div>
-          <h2 class="title">Feita <span class="text-grad">de lojista para lojista</span>.</h2>
-          <p class="lead" style="margin-top:16px">Mais do que uma rede, uma <strong>Central de Serviços Compartilhada</strong>: a <strong>1ª rede do segmento em Minas Gerais</strong> e hoje <strong>entre as 30 maiores do Brasil</strong> em material de construção. Sobre essa base, opera <strong>duas camadas</strong>:</p>
-          <ul class="list" style="margin-top:20px">
-            <li><b>A associação (270 lojas)</b><span class="sub">a base que dá poder de compra, serviços e a força da marca.</span></li>
-            <li><b>A franqueadora (royalty 2%)</b><span class="sub">a camada que estamos escalando — receita recorrente e alta margem.</span></li>
-          </ul>
+    <!-- ============ DEPARTAMENTOS ============ -->
+    <section class="section" id="departamentos">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Departamentos</p>
+          <h2>Sua obra inteira em um só lugar</h2>
+          <p class="section-sub">Da fundação ao toque final: navegue pelos nossos departamentos e monte a lista da sua obra.</p>
         </div>
-        <div class="card">
-          <div class="card__icon">🏪</div>
-          <h3>A camada que o capital acelera</h3>
-          <p style="margin-bottom:16px">Hoje a franqueadora tem 10 franqueados pagando royalty. O alvo é 50. Cada franqueado fatura, em média, <b style="color:var(--text)">R$ 500 mil/mês</b> e paga <b style="color:var(--text)">~R$ 10 mil/mês</b> de royalty.</p>
-          <div class="pills">
-            <span class="pill pill--on">Marca</span>
-            <span class="pill pill--on">50+ serviços</span>
-            <span class="pill pill--on">Poder de compra</span>
-            <span class="pill pill--on">Contratos 5 anos</span>
+        <div class="cards-grid">
+          <article class="dep-card reveal" data-dep="Materiais de Construção" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v12H3zM3 9l4-6h10l4 6M9 15h6"/></svg></div>
+            <h3>Materiais de Construção</h3>
+            <p>Cimento, areia, brita, tijolos, vergalhões e tudo para a estrutura da obra.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Materiais Hidráulicos" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6a4 4 0 0 0 4 4h5M12 3H7a2 2 0 0 0-2 2v14M12 3h3M5 21h6"/></svg></div>
+            <h3>Materiais Hidráulicos</h3>
+            <p>Tubos, conexões, registros e caixas d'água — linha completa, incluindo Amanco.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Iluminação e Elétrica" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+            <h3>Iluminação e Elétrica</h3>
+            <p>Fios, cabos, disjuntores, luminárias e lâmpadas para todos os ambientes.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Tintas e Impermeabilização" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6M3 11h18v3a2 2 0 0 1-2 2h-6v4a1.5 1.5 0 1 1-3 0v-4H5a2 2 0 0 1-2-2v-3z"/></svg></div>
+            <h3>Tintas e Impermeabilização</h3>
+            <p>Tintas para paredes e pisos, vernizes e impermeabilizantes. <strong>Tintas manipuladas na hora</strong>, na cor que você quiser.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Pisos e Revestimentos" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/></svg></div>
+            <h3>Pisos e Revestimentos</h3>
+            <p>Pisos e revestimentos cerâmicos para dar acabamento a cada ambiente.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Argamassas e Rejuntes" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 20 4M6 10l8 8M10 6l8 8M4 20h6M4 20v-6"/></svg></div>
+            <h3>Argamassas e Rejuntes</h3>
+            <p>Argamassas, rejuntes e aditivos para assentar e finalizar com qualidade.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Ferramentas e Utilitários" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4L15 12l-3-3 2.7-2.7z"/></svg></div>
+            <h3>Ferramentas e Utilitários</h3>
+            <p>Ferramentas manuais e elétricas, brocas, EPIs e utilitários para o dia a dia.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Portas e Janelas" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M3 21h18M14 12h.5"/></svg></div>
+            <h3>Portas e Janelas</h3>
+            <p>Esquadrias, portas e janelas para fechar a obra com segurança e estilo.</p>
+          </article>
+          <article class="dep-card reveal" data-dep="Banheiros e Cozinhas" tabindex="0">
+            <div class="dep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v2a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-2zM6 12V5a2 2 0 0 1 4 0M8 19l-1 2M16 19l1 2"/></svg></div>
+            <h3>Banheiros e Cozinhas</h3>
+            <p>Louças, metais, cubas e acessórios para banheiros e cozinhas completos.</p>
+          </article>
+        </div>
+        <p class="cards-hint reveal">💡 Clique em um departamento para incluí-lo no seu orçamento</p>
+      </div>
+    </section>
+
+    <!-- ============ DIFERENCIAIS ============ -->
+    <section class="section section-dark" id="diferenciais">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Por que a ConstruMaia?</p>
+          <h2>Mais do que loja: parceira da sua obra</h2>
+        </div>
+        <div class="feat-grid">
+          <div class="feat reveal">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7M7.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg></div>
+            <h3>Entrega a domicílio</h3>
+            <p>Comprou, a gente leva: entregamos o material direto na sua obra, com política de entrega transparente.</p>
+          </div>
+          <div class="feat reveal">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 3 2 5 3 6h8c1-1 3-3 3-6a7 7 0 0 0-7-7zM9 20h6M10 22h4"/></svg></div>
+            <h3>Tintas manipuladas</h3>
+            <p>Máquina de tintas na loja: sua cor preparada na hora, com precisão e repetição garantida em compras futuras.</p>
+          </div>
+          <div class="feat reveal">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7s-2-5-5-4-1 4 5 4zM12 7s2-5 5-4 1 4-5 4z"/></svg></div>
+            <h3>Catálogo de Prêmios</h3>
+            <p>Cliente fiel merece mais: suas compras acumulam pontos que viram prêmios do nosso catálogo. Pergunte no caixa.</p>
+          </div>
+          <div class="feat reveal">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5zM8.5 12l2.5 2.5 4.5-4.5"/></svg></div>
+            <h3>Marcas de confiança</h3>
+            <p>Trabalhamos com as marcas mais respeitadas do mercado — como Amanco na linha hidráulica — para sua obra não ter retrabalho.</p>
+          </div>
+          <div class="feat reveal">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3>Atendimento que entende</h3>
+            <p>Equipe experiente que fala a língua da obra: te ajudamos a calcular quantidades e escolher o material certo.</p>
+          </div>
+          <div class="feat reveal">
+            <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4M9 12h.01M15 12h.01M12 9h.01"/></svg></div>
+            <h3>3 lojas em Montes Claros</h3>
+            <p>Matriz na Vera Cruz, filial na João XXIII e a ConstruMaia Plus no Major Prates: estoque de verdade, perto de você.</p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- 05 — A TESE / MARGEM -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">A tese</span>
-      <h2 class="title">Por que a margem é alta — e <span class="text-grad">defensável</span>.</h2>
-      <p class="lead" style="margin-top:16px">O modelo é tratado de forma <strong>standalone</strong>: a franqueadora paga o custo real do time que atende as lojas. Mesmo assim, a margem é alta porque o royalty é muito maior que o custo de servir.</p>
-      <div class="cols cols-3" style="margin-top:32px;align-items:stretch">
-        <div class="card"><div class="kpi__num kpi__num--ink">R$ 667</div><div class="kpi__label">custo de atender 1 loja/mês<br>(folha alocada: R$180k ÷ 270 lojas)</div></div>
-        <div class="card card--hot"><div class="kpi__num">R$ 10.000</div><div class="kpi__label">royalty recebido por loja/mês</div></div>
-        <div class="card"><div class="kpi__num kpi__num--ink">~15x</div><div class="kpi__label">o royalty supera o custo de servir<br>= alavancagem operacional</div></div>
-      </div>
-      <div class="callout" style="margin-top:30px">
-        <p class="lead" style="margin:0">Cada novo franqueado entra quase 100% na margem: <strong>a estrutura que o atende já existe e o custo incremental é baixo.</strong></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 06 — A MARCA -->
-  <section class="slide">
-    <span class="glow glow--primary" style="bottom:-120px;right:-60px"></span>
-    <div class="slide__inner">
-      <span class="eyebrow">O ativo central</span>
-      <div class="cols cols-2 items-center">
-        <div>
-          <h2 class="title">A <span class="text-grad">marca</span> é o que protege o royalty.</h2>
-          <p class="lead" style="margin-top:16px">Existem modelos de associação mais baratos. A franquia se justifica porque <strong>entrega o que eles não entregam — principalmente a marca Construai</strong>, construída sobre 270 lojas e reconhecida no mercado.</p>
-          <p class="lead">É essa força que sustenta a disposição do franqueado em pagar 2% por 5 anos. As lojas-alvo buscam justamente esse posicionamento.</p>
-        </div>
-        <div class="card">
-          <div class="card__icon">🛡️</div>
-          <h3>A prova está na própria rede</h3>
-          <p>A média de faturamento que sustenta o royalty (~R$ 10 mil/mês) não é projeção otimista: é <b style="color:var(--text)">comprovável pelos dados reais das 270 lojas</b>, em que a maioria fatura na faixa de R$ 500 mil/mês.</p>
-          <p style="margin-top:12px">O risco de receita é, portanto, <b style="color:var(--text)">ancorado em histórico auditável</b>.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 07 — OS NÚMEROS (EBITDA) -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">Os números — franqueadora (standalone)</span>
-      <h2 class="title">Do EBITDA de hoje ao EBITDA <span class="text-grad">do ramp</span>.</h2>
-      <div class="tbl-wrap" style="margin-top:26px">
-        <table class="tbl">
-          <thead>
-            <tr><th>Demonstrativo (R$/ano)</th><th>Hoje · 10 franq.</th><th class="col-hi">Alvo · 50 franq.</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Receita de royalties</td><td>360.000</td><td class="col-hi">6.000.000</td></tr>
-            <tr><td>(–) Impostos sobre receita (~10%)</td><td class="neg">(36.000)</td><td class="col-hi neg">(600.000)</td></tr>
-            <tr><td>(–) Folha alocada (R$ 667/loja)</td><td class="neg">(80.000)</td><td class="col-hi neg">(400.000)</td></tr>
-            <tr><td>(–) Funcionária própria</td><td class="neg">(72.000)</td><td class="col-hi neg">(72.000)</td></tr>
-            <tr class="row-strong"><td>EBITDA / ano</td><td>172.000</td><td class="col-hi">4.928.000</td></tr>
-            <tr><td>Margem EBITDA</td><td class="pos">~48%</td><td class="col-hi pos">~82%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="footnote">Estrutura de custo praticamente fixa: a receita cresce 16x do cenário atual ao alvo, enquanto o custo cresce pouco — daí o salto de margem de 48% para 82%.</p>
-    </div>
-  </section>
-
-  <!-- 08 — VALUATION -->
-  <section class="slide">
-    <div class="grid-bg"></div>
-    <div class="slide__inner">
-      <span class="eyebrow">Valuation — múltiplo EV/EBITDA (4x–6x)</span>
-      <h2 class="title">O investidor entra <span class="text-grad">entre o piso e o alvo</span>.</h2>
-      <div class="cols cols-3" style="margin-top:30px;align-items:stretch">
-        <div class="card">
-          <h3>Hoje · piso</h3>
-          <div class="kpi__num kpi__num--ink" style="font-size:2.2rem;margin-top:8px">R$ 0,7–1,0M</div>
-          <p style="margin-top:10px">Realidade atual (10 franqueados). O ponto mais conservador.</p>
-        </div>
-        <div class="card card--hot">
-          <h3>Faixa de entrada</h3>
-          <div class="kpi__num" style="font-size:2.2rem;margin-top:8px">R$ 8–12M</div>
-          <p style="margin-top:10px">Pre-money de negociação — captura parte do upside do ramp antes de ele se materializar.</p>
-        </div>
-        <div class="card">
-          <h3>Alvo · 50 franq.</h3>
-          <div class="kpi__num kpi__num--ink" style="font-size:2.2rem;margin-top:8px">R$ 15,7–24,6M</div>
-          <p style="margin-top:10px">Central ~R$ 19,7M (5x) quando o ramp se completa.</p>
-        </div>
-      </div>
-      <p class="footnote">Múltiplos de 4x a 6x são típicos de franqueadora pequena no Brasil. O valor se realiza à medida que os 40 novos franqueados entram — exatamente o que o aporte financia.</p>
-    </div>
-  </section>
-
-  <!-- 09 — A OFERTA AO LÁSARO -->
-  <section class="slide slide--dark">
-    <span class="glow glow--primary" style="top:-100px;right:-80px"></span>
-    <div class="slide__inner">
-      <span class="eyebrow">A oferta</span>
-      <h2 class="title">O senhor entra como <span class="text-grad">sócio estratégico</span> — pelo preço justo.</h2>
-      <p class="lead" style="margin-top:14px;color:#C7D0DC">Existem dois preços. A um investidor que só traz dinheiro, cobramos o teto. Ao senhor — pelo nome, rede e credibilidade — oferecemos o <strong style="color:#fff">preço de sócio</strong>.</p>
-      <div class="tbl-wrap" style="margin-top:22px">
-        <table class="tbl">
-          <thead>
-            <tr><th>Parâmetro</th><th>Investidor financeiro</th><th class="col-hi">Lásaro · estratégico</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Pre-money</td><td>R$ 12 milhões</td><td class="col-hi">R$ 8 milhões</td></tr>
-            <tr><td>Aporte</td><td>R$ 2 milhões</td><td class="col-hi">R$ 2 milhões</td></tr>
-            <tr class="row-strong"><td>Participação resultante</td><td>~14,3%</td><td class="col-hi">20,0%</td></tr>
-            <tr><td>O que agrega</td><td class="neg">Apenas capital</td><td class="col-hi">Nome, rede, escala</td></tr>
-            <tr><td>Tipo de cota</td><td class="neg">Preferencial</td><td class="col-hi">Ordinária + metas</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="footnote" style="color:#9DA8B8">Pelo mesmo cheque de R$ 2 mi, o senhor recebe <b style="color:#fff">40% mais participação</b> — porque a sua entrada reduz o risco e o tempo do ramp, valorizando os 80% que permanecem com os sócios.</p>
-    </div>
-  </section>
-
-  <!-- 10 — USO DO CAPITAL -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">Uso do capital</span>
-      <div class="cols cols-2 items-center">
-        <div>
-          <h2 class="title">R$ 2 milhões viram <span class="text-grad">40 novas lojas</span>.</h2>
-          <p class="lead" style="margin-top:16px">Cada loja recebe um pacote de incentivo para estruturar a operação e travar o contrato de 5 anos. O retorno volta como royalty recorrente.</p>
-          <ul class="list" style="margin-top:20px">
-            <li><b>R$ 50 mil em caixa</b> por loja, para montagem da operação</li>
-            <li><b>R$ 50 mil</b> de isenção da taxa de franquia (incentivo)</li>
-            <li><b>R$ 100 mil</b> de incentivo total por franqueado</li>
+    <!-- ============ SOBRE ============ -->
+    <section class="section" id="sobre">
+      <div class="container about-grid">
+        <div class="about-text reveal">
+          <p class="kicker">Nossa história</p>
+          <h2>30 anos ajudando Montes Claros a construir</h2>
+          <p>A ConstruMaia (Almeida e Maia Materiais de Construção) nasceu em Montes Claros e cresceu junto com a cidade. Há três décadas somos o endereço de quem constrói, reforma ou dá aquele retoque na casa — do mestre de obras ao cliente que está realizando o sonho da casa própria.</p>
+          <p>Hoje somos <strong>uma loja completa de materiais de construção</strong>: três lojas na cidade, departamentos que cobrem a obra inteira e uma equipe que trata cada projeto como se fosse o próprio.</p>
+          <ul class="about-list">
+            <li><span>✓</span> Loja completa: da base ao acabamento</li>
+            <li><span>✓</span> Preço justo e negociação de gente para gente</li>
+            <li><span>✓</span> Entrega a domicílio em Montes Claros</li>
+            <li><span>✓</span> Tradição e confiança de 30 anos de mercado</li>
           </ul>
+          <div class="hero-ctas" style="margin: 0;">
+            <a href="#lojas" class="btn btn-primary">Conheça nossas lojas</a>
+            <a href="https://www.youtube.com/watch?v=hcWIwwkCmCg" class="btn btn-ghost-dark" target="_blank" rel="noopener">▶ Assista nosso vídeo</a>
+          </div>
         </div>
-        <div class="card">
-          <h3 style="margin-bottom:16px">A conta da expansão</h3>
-          <div class="tbl-wrap" style="box-shadow:none;border:none;padding:0">
-            <table class="tbl">
-              <tbody>
-                <tr><td>Lojas novas (50 – 10)</td><td><b>40</b></td></tr>
-                <tr><td>Cash por loja</td><td>R$ 50.000</td></tr>
-                <tr class="row-strong"><td>Total do aporte</td><td>R$ 2.000.000</td></tr>
-                <tr><td>Royalty/loja/mês</td><td>~R$ 10.000</td></tr>
-                <tr><td>Prazo de contrato</td><td>5 anos</td></tr>
-              </tbody>
-            </table>
+        <div class="about-visual reveal">
+          <div class="about-card ac-1"><strong>Missão</strong><p>Servir nossos clientes com excelência, contribuindo com a realização dos seus sonhos e com o avanço da sociedade.</p></div>
+          <div class="about-card ac-2"><strong>Visão</strong><p>Inovar no mercado de fornecimento de materiais de construção, com foco no atendimento eficiente, no crescimento sustentável e na responsabilidade social.</p></div>
+          <div class="about-card ac-3"><strong>Valores</strong><p>Honestidade, as pessoas, qualidade do atendimento, satisfação do cliente, liderança de mercado, inovação e transparência.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ORÇAMENTO INTERATIVO ============ -->
+    <section class="section section-accent" id="orcamento">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Orçamento rápido</p>
+          <h2>Monte sua lista e receba o orçamento no WhatsApp</h2>
+          <p class="section-sub">Selecione os departamentos, descreva o que precisa e envie: nossa equipe responde com preços e disponibilidade.</p>
+        </div>
+        <div class="quote-box reveal">
+          <div class="quote-step">
+            <span class="step-n">1</span>
+            <div>
+              <h3>O que sua obra precisa?</h3>
+              <div class="chips" id="quoteChips">
+                <button type="button" class="chip" data-value="Materiais de Construção">Materiais de Construção</button>
+                <button type="button" class="chip" data-value="Materiais Hidráulicos">Hidráulica</button>
+                <button type="button" class="chip" data-value="Iluminação e Elétrica">Elétrica</button>
+                <button type="button" class="chip" data-value="Tintas e Impermeabilização">Tintas</button>
+                <button type="button" class="chip" data-value="Pisos e Revestimentos">Pisos e Revestimentos</button>
+                <button type="button" class="chip" data-value="Argamassas e Rejuntes">Argamassas e Rejuntes</button>
+                <button type="button" class="chip" data-value="Ferramentas e Utilitários">Ferramentas</button>
+                <button type="button" class="chip" data-value="Portas e Janelas">Portas e Janelas</button>
+                <button type="button" class="chip" data-value="Banheiros e Cozinhas">Banheiros e Cozinhas</button>
+              </div>
+            </div>
+          </div>
+          <div class="quote-step">
+            <span class="step-n">2</span>
+            <div class="quote-fields">
+              <h3>Detalhe seu pedido</h3>
+              <input type="text" id="quoteName" placeholder="Seu nome" autocomplete="name">
+              <textarea id="quoteMsg" rows="3" placeholder="Ex.: 20 sacos de cimento, 5 m³ de areia, 100 m de fio 2,5 mm…"></textarea>
+            </div>
+          </div>
+          <div class="quote-step">
+            <span class="step-n">3</span>
+            <div>
+              <h3>Envie e pronto</h3>
+              <p class="quote-preview" id="quotePreview">Sua mensagem aparecerá aqui…</p>
+              <a class="btn btn-whats btn-lg" id="quoteSend" href="https://wa.me/553832151566" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+                Enviar pelo WhatsApp
+              </a>
+              <p class="quote-alt">Prefere ligar? Central: <a href="tel:+553832151566">(38) 3215-1566</a> · Matriz: <a href="tel:+553832151819">(38) 3215-1819</a></p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- 11 — RETORNO DO INVESTIDOR -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">Retorno do investidor — ramp em 3 anos (20% do EBITDA)</span>
-      <h2 class="title">Payback em <span class="text-grad">~2 anos</span> — e o ganho de capital vem por cima.</h2>
-      <div class="tbl-wrap" style="margin-top:22px">
-        <table class="tbl">
-          <thead>
-            <tr><th>Ramp</th><th>Ano 1</th><th>Ano 2</th><th class="col-hi">Ano 3</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Franqueados (fim do ano)</td><td>25</td><td>40</td><td class="col-hi">50</td></tr>
-            <tr><td>Receita de royalties/ano</td><td>R$ 3,0M</td><td>R$ 4,8M</td><td class="col-hi">R$ 6,0M</td></tr>
-            <tr><td>EBITDA/ano</td><td>R$ 2,43M</td><td>R$ 3,93M</td><td class="col-hi">R$ 4,93M</td></tr>
-            <tr><td>Retorno do investidor (20%)</td><td class="pos">R$ 485,6k</td><td class="pos">R$ 785,6k</td><td class="col-hi pos">R$ 985,6k</td></tr>
-            <tr class="row-strong"><td>Retorno acumulado</td><td>R$ 485,6k</td><td>R$ 1,27M</td><td class="col-hi">R$ 2,26M</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="cols cols-3" style="margin-top:24px">
-        <div><div class="kpi__num" style="font-size:2rem">~49%</div><div class="kpi__label">retorno anual sobre o aporte (no ramp)</div></div>
-        <div><div class="kpi__num" style="font-size:2rem">~2 anos</div><div class="kpi__label">payback do aporte de R$ 2 mi</div></div>
-        <div><div class="kpi__num" style="font-size:2rem">~2,0x</div><div class="kpi__label">upside no valor da fatia (alvo 5x)</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12 — ESTRUTURA -->
-  <section class="slide">
-    <div class="grid-bg"></div>
-    <div class="slide__inner">
-      <span class="eyebrow">Estrutura da operação</span>
-      <h2 class="title">Captação <span class="text-grad">sem diluir</span> quem já opera.</h2>
-      <p class="lead" style="margin-top:16px">O investidor entra em um <strong>veículo dedicado à expansão</strong>, não na franqueadora-mãe. O retorno fica vinculado às lojas que o capital abre.</p>
-      <div class="cols cols-3" style="margin-top:30px">
-        <div class="card"><div class="card__icon">🧩</div><h3>Sem diluição</h3><p>Nenhum dos 20 sócios atuais perde participação no negócio que já existe.</p></div>
-        <div class="card"><div class="card__icon">🔎</div><h3>Retorno rastreável</h3><p>O investidor tem visão clara e auditável sobre exatamente o que financiou.</p></div>
-        <div class="card"><div class="card__icon">🗳️</div><h3>Controle preservado</h3><p>As cotas separam direitos econômicos de políticos — quem opera segue no comando.</p></div>
-      </div>
-      <p class="footnote">Aprovação mais simples, porque ninguém abre mão de participação — e a governança fica limpa desde o primeiro dia.</p>
-    </div>
-  </section>
-
-  <!-- 13 — RISCOS & RESPOSTAS -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">Due diligence — as perguntas difíceis, respondidas</span>
-      <h2 class="title">Transparência <span class="text-grad">antes</span> de o senhor perguntar.</h2>
-      <div class="cols cols-3" style="margin-top:30px;align-items:stretch">
-        <div class="card">
-          <h3>Por que pagar franquia se há modelos mais baratos?</h3>
-          <p>Porque a franquia entrega o que os modelos simples não entregam: a <b style="color:var(--text)">marca Construai</b>. Atende um segmento de lojas que busca posicionamento — não compete com a associação básica.</p>
+    <!-- ============ LOJAS ============ -->
+    <section class="section" id="lojas">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Nossas lojas</p>
+          <h2>Perto de você em Montes Claros</h2>
+          <p class="section-sub">Segunda a sexta, das 08h às 18h · Sábado, das 08h às 12h</p>
         </div>
-        <div class="card">
-          <h3>Como provar a média de faturamento?</h3>
-          <p>Pelos <b style="color:var(--text)">dados reais das 270 lojas</b>. A média que sustenta o royalty é histórica e auditável — não projetada.</p>
-        </div>
-        <div class="card">
-          <h3>A margem de 82% é real?</h3>
-          <p>Sim, no modelo standalone com a folha alocada (R$ 667/loja). A formalização da prestação de serviço é pré-requisito, <b style="color:var(--text)">confirmada por contador e advogado</b> antes do fechamento.</p>
+        <div class="stores-grid">
+          <article class="store-card reveal">
+            <span class="store-tag">Matriz</span>
+            <h3>ConstruMaia — Matriz</h3>
+            <p class="store-addr">Av. Dep. Plínio Ribeiro, 490<br>Vera Cruz · Montes Claros/MG</p>
+            <p class="store-hours"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Seg–Sex 08h–18h · Sáb 08h–12h</p>
+            <div class="store-actions">
+              <a class="btn btn-outline btn-sm" href="https://www.google.com/maps/search/?api=1&query=ConstruMaia,+Av.+Deputado+Plinio+Ribeiro,+490,+Montes+Claros+-+MG" target="_blank" rel="noopener">Como chegar</a>
+              <a class="btn btn-ghost-dark btn-sm" href="tel:+553832151819">(38) 3215-1819</a>
+            </div>
+          </article>
+          <article class="store-card reveal">
+            <span class="store-tag">Filial</span>
+            <h3>ConstruMaia — João XXIII</h3>
+            <p class="store-addr">Av. João XXIII, 1474<br>Edgar Pereira · Montes Claros/MG</p>
+            <p class="store-hours"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Seg–Sex 08h–18h · Sáb 08h–12h</p>
+            <div class="store-actions">
+              <a class="btn btn-outline btn-sm" href="https://www.google.com/maps/search/?api=1&query=ConstruMaia,+Av.+Joao+XXIII,+1474,+Montes+Claros+-+MG" target="_blank" rel="noopener">Como chegar</a>
+              <a class="btn btn-ghost-dark btn-sm" href="tel:+553832232392">(38) 3223-2392</a>
+            </div>
+          </article>
+          <article class="store-card reveal">
+            <span class="store-tag">Plus</span>
+            <h3>ConstruMaia — Plus</h3>
+            <p class="store-addr">Av. Francisco Gaetani, 388<br>Major Prates · Montes Claros/MG</p>
+            <p class="store-hours"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Seg–Sex 08h–18h · Sáb 08h–12h</p>
+            <div class="store-actions">
+              <a class="btn btn-outline btn-sm" href="https://www.google.com/maps/search/?api=1&query=ConstruMaia+Plus,+Av.+Francisco+Gaetani,+388,+Montes+Claros+-+MG" target="_blank" rel="noopener">Como chegar</a>
+              <a class="btn btn-ghost-dark btn-sm" href="tel:+553832157875">(38) 3215-7875</a>
+            </div>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- 14 — POR QUE O SENHOR, POR QUE AGORA -->
-  <section class="slide">
-    <span class="glow glow--primary" style="top:-100px;left:-80px"></span>
-    <div class="slide__inner">
-      <span class="eyebrow">Por que o senhor, por que agora</span>
-      <h2 class="title">O encaixe é <span class="text-grad">raro</span>.</h2>
-      <div class="cols cols-2" style="margin-top:28px">
-        <ul class="list list--check">
-          <li><b>O senhor já fez isso</b><span class="sub">multiplicou uma rede de pessoas (Jequiti) e lidera redes de varejo (São João, Bom Pastor).</span></li>
-          <li><b>A base está pronta</b><span class="sub">270 lojas, marca consolidada, modelo de royalty validado em 10 franqueados.</span></li>
-        </ul>
-        <ul class="list list--check">
-          <li><b>O capital é cirúrgico</b><span class="sub">R$ 2 mi destrava 40 lojas travadas em contratos de 5 anos.</span></li>
-          <li><b>A janela é agora</b><span class="sub">cada mês sem escalar é royalty recorrente deixado na mesa.</span></li>
-        </ul>
+    <!-- ============ FAQ ============ -->
+    <section class="section section-soft" id="faq">
+      <div class="container faq-wrap">
+        <div class="section-head reveal">
+          <p class="kicker">Dúvidas frequentes</p>
+          <h2>Antes de vir, já fica sabendo</h2>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq-item">
+            <summary>Vocês entregam em casa?<span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>Sim! Temos entrega a domicílio em Montes Claros, com política de entregas transparente. Combine prazo e condições no caixa ou pelo WhatsApp na hora da compra.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Comprei na loja. Quanto tempo tenho para retirar?<span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>Compras feitas na loja devem ser retiradas em até <strong>30 dias</strong> a partir da data da compra. Depois desse prazo, consulte nossa equipe.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Qual o horário de funcionamento?<span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>De segunda a sexta, das <strong>08h às 18h</strong>, e aos sábados das <strong>08h às 12h</strong>.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Fazem orçamento pelo WhatsApp?<span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>Fazemos! Use o <a href="#orcamento">orçamento rápido</a> aqui do site: você monta a lista, envia pelo WhatsApp e nossa equipe responde com preços e disponibilidade.</p>
+          </details>
+          <details class="faq-item">
+            <summary>O que é o Catálogo de Prêmios?<span class="faq-plus" aria-hidden="true"></span></summary>
+            <p>É o nosso programa de fidelidade: suas compras acumulam pontos que podem ser trocados por prêmios do catálogo. Pergunte no caixa como participar.</p>
+          </details>
+        </div>
       </div>
-      <div class="callout" style="margin-top:30px">
-        <p class="big text-grad">O senhor não entra para apostar. Entra para fazer o que já sabe — de novo.</p>
+    </section>
+
+    <!-- ============ TRABALHE CONOSCO ============ -->
+    <section class="section" id="trabalhe">
+      <div class="container work-strip reveal">
+        <div class="work-text">
+          <p class="kicker">Trabalhe Conosco</p>
+          <h2>Aqui, as pessoas fazem a diferença!</h2>
+          <p>Buscamos talentos que tenham valores alinhados com os nossos. Queremos inovar no fornecimento de materiais de construção com foco no atendimento eficiente — e, para isso, todas as etapas contam: do primeiro contato com o cliente até a entrega e o pós-venda.</p>
+        </div>
+        <a class="btn btn-primary btn-lg" href="https://wa.me/553832151566?text=Ol%C3%A1!%20Tenho%20interesse%20em%20trabalhar%20na%20ConstruMaia.%20Poderiam%20me%20informar%20sobre%20as%20vagas%20dispon%C3%ADveis%3F" target="_blank" rel="noopener">Veja vagas disponíveis</a>
+      </div>
+    </section>
+
+    <!-- ============ CONTATO / CTA FINAL ============ -->
+    <section class="section section-cta" id="contato">
+      <div class="container cta-inner reveal">
+        <h2>Bora tirar sua obra do papel?</h2>
+        <p>Fale com a gente agora — por WhatsApp, telefone ou visitando uma de nossas lojas.</p>
+        <div class="cta-actions">
+          <a class="btn btn-whats btn-lg" href="https://wa.me/553832151566?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ConstruMaia." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+            Chamar no WhatsApp
+          </a>
+          <a class="btn btn-ghost btn-lg" href="tel:+553832151566">(38) 3215-1566</a>
+        </div>
+        <div class="cta-social">
+          <a href="https://www.instagram.com/construmaia/" target="_blank" rel="noopener" aria-label="Instagram da ConstruMaia">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+            <span>@construmaia</span>
+          </a>
+          <a href="https://www.facebook.com/Construmaia/" target="_blank" rel="noopener" aria-label="Facebook da ConstruMaia">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M14 8h3V5h-3a4 4 0 0 0-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9a1 1 0 0 1 1-1z"/></svg>
+            <span>/Construmaia</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="assets/img/logo.webp" alt="ConstruMaia" height="44">
+        <p class="footer-tag">Tudo para sua construção,<br>da base ao acabamento.</p>
+      </div>
+      <div>
+        <h4>Navegue</h4>
+        <a href="#departamentos">Departamentos</a>
+        <a href="#diferenciais">Diferenciais</a>
+        <a href="#sobre">Quem somos</a>
+        <a href="#orcamento">Orçamento</a>
+        <a href="#lojas">Nossas lojas</a>
+        <a href="#trabalhe">Trabalhe conosco</a>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <a href="tel:+553832151566">Telefone: (38) 3215-1566</a>
+        <a href="https://wa.me/553832151566" target="_blank" rel="noopener">WhatsApp: (38) 3215-1566</a>
+        <p>Seg–Sex 08h–18h<br>Sáb 08h–12h</p>
+      </div>
+      <div>
+        <h4>Nossas lojas</h4>
+        <p>Matriz — Av. Dep. Plínio Ribeiro, 490 · Vera Cruz</p>
+        <p>João XXIII — Av. João XXIII, 1474 · Edgar Pereira</p>
+        <p>Plus — Av. Francisco Gaetani, 388 · Major Prates</p>
+        <p>Montes Claros — MG</p>
       </div>
     </div>
-  </section>
-
-  <!-- 15 — PRÓXIMOS PASSOS -->
-  <section class="slide">
-    <div class="slide__inner">
-      <span class="eyebrow">Próximos passos</span>
-      <h2 class="title">Como <span class="text-grad">avançamos</span>.</h2>
-      <div class="cols cols-3" style="margin-top:32px">
-        <div class="card"><div class="card__icon">1</div><h3>Alinhamento</h3><p>Reunião para definir o perfil da participação e os termos da cota (ordinária + metas).</p></div>
-        <div class="card"><div class="card__icon">2</div><h3>Due diligence</h3><p>Abertura dos dados reais das 270 lojas e validação contábil/jurídica do modelo.</p></div>
-        <div class="card"><div class="card__icon">3</div><h3>Fechamento</h3><p>Estruturação do veículo de expansão e início do ramp dos 40 novos franqueados.</p></div>
-      </div>
-      <p class="lead" style="margin-top:30px"><strong>A base já foi construída. Falta a sua mão para multiplicá-la.</strong></p>
+    <div class="container footer-bottom">
+      <p>© <span id="year"></span> ConstruMaia · Almeida e Maia Materiais de Construção · CNPJ 08.678.892/0001-96</p>
+      <p>Montes Claros — Minas Gerais</p>
     </div>
-  </section>
+  </footer>
 
-  <!-- 16 — FECHAMENTO -->
-  <section class="slide slide--dark">
-    <span class="glow glow--primary" style="top:-120px;left:-60px"></span>
-    <span class="glow glow--primary" style="bottom:-140px;right:-80px;opacity:.1"></span>
-    <div class="grid-bg"></div>
-    <div class="slide__inner cover">
-      <div class="brand"><img src="assets/img/logo.svg" alt="Rede Construai" /></div>
-      <h2 class="title">Seja gigante <span class="text-grad">com a gente.</span></h2>
-      <p class="lead" style="margin-top:16px;color:#C7D0DC">Estamos à disposição para abrir os números das 270 lojas, demonstrar o modelo e desenhar a estrutura da sociedade com o senhor.</p>
-      <div class="cols cols-3" style="margin-top:30px">
-        <div class="card"><h3>Contato</h3><p class="ph">[Nome do responsável]</p><p class="ph">[telefone / WhatsApp]</p></div>
-        <div class="card"><h3>Canais</h3><p>gpt.construai@gmail.com</p><p>construai.com.br</p></div>
-        <div class="card"><h3>Demonstração</h3><p>Dados das 270 lojas e modelo de valuation, sob NDA.</p></div>
-      </div>
-    </div>
-    <div class="disclaimer">Documento de trabalho. Premissas e projeções sujeitas a confirmação contábil, jurídica e de due diligence. Não constitui oferta de valores mobiliários.</div>
-  </section>
+  <a href="https://wa.me/553832151566?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ConstruMaia." class="whats-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.1-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+  </a>
 
-</main>
+  <button class="back-top" id="backTop" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 
-<script src="assets/js/deck.js"></script>
+  <script src="assets/vendor/gsap.min.js" defer></script>
+  <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
+  <script type="importmap">
+    { "imports": { "three": "./assets/vendor/three.module.min.js" } }
+  </script>
+  <script type="module" src="assets/js/hero3d.js"></script>
 </body>
 </html>
