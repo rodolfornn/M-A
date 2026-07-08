@@ -31,6 +31,7 @@ jobs:
           deploy-message: "Deploy ${{ github.sha }} - ${{ github.ref_name }}"
           enable-pull-request-comment: false
           enable-commit-comment: true
+          fails-without-credentials: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
