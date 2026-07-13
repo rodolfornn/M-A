@@ -488,11 +488,56 @@ function helperAI(h,dt){
     h.x+=(x-h.x)/d*h.speed*dt;h.y+=(y-h.y)/d*h.speed*dt;
     h.face=(x-h.x)>0?1:-1;h.walk+=dt*10;return false;};
   const cooked=h.items.filter(it=>PRODUCTS[it]).length;
+  /* guardando sobras no armazém */
+  if(h.task==='stash'&&(h.items.length===0||!g.storeBuilt))h.task=null;
+  if(h.task==='stash'){
+    const kind=h.items[0];
+    const ki=STORE.kinds.indexOf(kind);
+    if(ki<0){h.items.shift();return;}
+    if((S.store[kind]||0)>=STORE.cap){h.task=null;h.stashCd=8;return;}
+    if(go(STORE.slotX(ki),STORE.y+30)){
+      h.serveT-=dt;
+      if(h.serveT<=0){h.serveT=.15;
+        S.store[kind]=(S.store[kind]||0)+1;h.items.shift();}
+    }
+    return;
+  }
+  /* buscando pedido no armazém: pega a quantidade certa antes de servir */
+  if(h.task==='fetch'){
+    const kind=h.fetchKind,fr=g.queue[0];
+    const need=(fr&&fr.state==='wait'&&fr.type===kind)?fr.need-fr.got:0;
+    const wantN=Math.min(h.cap,Math.max(need,1));
+    if(need<=0||h.items.length>=wantN||(S.store[kind]||0)<=0){h.task=null;return;}
+    const ki=STORE.kinds.indexOf(kind);
+    if(go(STORE.slotX(ki),STORE.y+30)){
+      h.serveT-=dt;
+      if(h.serveT<=0){h.serveT=.15;S.store[kind]--;h.items.push(kind);}
+    }
+    return;
+  }
   if(cooked>0){ // servir
     if(go(COUNTER.x-52,COUNTER.y+56)){h.serveT-=dt;
-      if(h.serveT<=0){h.serveT=.32;if(!tryServe(h)){ // ninguém quer: descarta de volta? espera
-        h.serveT=.6;}}}
+      if(h.serveT<=0){h.serveT=.32;
+        if(tryServe(h))h.stuck=0;
+        else{ // cliente da frente não quer: depois de um tempo, guarda as sobras
+          h.stuck=(h.stuck||0)+.32;
+          if(h.stuck>2.5&&g.storeBuilt&&!(h.stashCd>0)){h.stuck=0;h.task='stash';}
+        }}}
     return;
+  }
+  h.stuck=0;
+  h.stashCd=Math.max(0,(h.stashCd||0)-dt);
+  /* cliente quer algo que só existe no armazém? vai buscar */
+  const front=g.queue[0];
+  if(g.storeBuilt&&front&&front.state==='wait'&&h.items.length===0){
+    const need=front.need-front.got;
+    const avail=S.store[front.type]||0;
+    const stationHasIt=g.stations.some(s=>s.out>0&&s.outKind===front.type&&s.kind!=='skewer');
+    const depotHasIt=(g.counter.stock[front.type]||0)>0;
+    if(avail>0&&need>0&&!stationHasIt&&!depotHasIt&&
+       !g.helpers.some(o=>o!==h&&o.task==='fetch'&&o.fetchKind===front.type)){
+      h.task='fetch';h.fetchKind=front.type;return;
+    }
   }
   const withOut=g.stations.find(s=>s.out>0&&s.kind!=='skewer');
   if(withOut&&h.items.length===0){
