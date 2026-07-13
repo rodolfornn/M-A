@@ -240,12 +240,15 @@ const PADS=[
   {id:'grill3', zone:'cozinha',type:'grill',  x:1590,y:880, cost:150,icon:'🔥',label:'Churrasqueira'},
   {id:'gspeed1',zone:'cozinha',type:'gspeed', x:1400,y:1075,cost:180,icon:'♨️',label:'Brasa forte'},
   {id:'helper2',zone:'cozinha',type:'helper', x:1650,y:1075,cost:260,icon:'🧑‍🍳',label:'Ajudante',lvl:3},
+  {id:'belt_sopa',  zone:'cozinha',type:'belt',x:1470,y:980,cost:850, icon:'⚙️',label:'Esteira da sopa',lvl:6},
+  {id:'belt_cozout',zone:'cozinha',type:'belt',x:1320,y:800,cost:1000,icon:'⚙️',label:'Esteira p/ balcão',lvl:7},
   // pesqueiro
   {id:'fgrill1',zone:'pesqueiro',type:'fishgrill',x:1400,y:300,cost:200,icon:'🐟',label:'Grelha de peixe'},
   {id:'fgrill2',zone:'pesqueiro',type:'fishgrill',x:1400,y:520,cost:320,icon:'🐟',label:'Grelha de peixe'},
   {id:'helper3',zone:'pesqueiro',type:'helper',x:1330,y:410, cost:420,icon:'🧑‍🍳',label:'Ajudante',lvl:5},
   {id:'cap2',   zone:'pesqueiro',type:'cap',  x:1780,y:560, cost:260,icon:'🎒',label:'Mochila +3'},
   {id:'belt_fish',zone:'pesqueiro',type:'belt',x:1490,y:360,cost:1200,icon:'⚙️',label:'Esteira de pesca',lvl:8},
+  {id:'belt_fishout',zone:'pesqueiro',type:'belt',x:1290,y:540,cost:1300,icon:'⚙️',label:'Esteira p/ balcão',lvl:9},
   // vila
   {id:'house1', zone:'vila',type:'house',x:560, y:300,cost:320, icon:'⛺',label:'Cabana'},
   {id:'house2', zone:'vila',type:'house',x:770, y:300,cost:520, icon:'⛺',label:'Cabana'},
@@ -259,13 +262,18 @@ const PADS=[
   {id:'helper4',zone:'festival',type:'helper',x:1470,y:1370,cost:700,icon:'🧑‍🍳',label:'Ajudante',lvl:11},
   {id:'speed3', zone:'festival',type:'speed', x:760, y:1500,cost:420,icon:'👢',label:'Botas +++'},
   {id:'cap4',   zone:'festival',type:'cap',   x:1120,y:1500,cost:460,icon:'🎒',label:'Mochila +3'},
+  {id:'belt_festa',zone:'festival',type:'belt',x:660,y:1290,cost:2000,icon:'⚙️',label:'Esteira do espetão',lvl:12,reqZone:'pesqueiro'},
 ];
 
 /* esteiras: caminho no mundo + o que transportam */
 const BELT_DEFS={
-  belt_meat:{path:[[440,806],[560,852],[672,880]],rate:2.0,spawn:'rawmeat',feed:['grill','pot']},
+  belt_meat:{path:[[440,806],[560,852],[672,880]],rate:2.0,spawn:'rawmeat',feed:['grill']},
   belt_serve:{path:[[906,868],[1014,782],[1082,606]],rate:0,pickup:205,deliver:'depot'},
   belt_fish:{path:[[1546,400],[1478,352],[1432,320]],rate:2.4,spawn:'rawfish',feed:['fishgrill']},
+  belt_sopa:{path:[[410,780],[700,772],[1000,860],[1230,950],[1360,905]],rate:2.6,spawn:'rawmeat',feed:['pot']},
+  belt_cozout:{path:[[1480,850],[1300,720],[1160,650],[1094,618]],rate:0,pickup:205,deliver:'depot'},
+  belt_fishout:{path:[[1395,415],[1290,540],[1190,600],[1092,590]],rate:0,pickup:205,deliver:'depot'},
+  belt_festa:{path:[[560,1300],[750,1345],[868,1362]],rate:3.2,spawnAlt:['rawmeat','rawfish'],feedStock:true},
 };
 for(const b of Object.values(BELT_DEFS)){
   b.segs=[];b.len=0;
@@ -758,12 +766,14 @@ function update(dt){
 function updateBelt(belt,dt){
   const g=G,def=belt.def;
   const spd=(95*g.beltMult)/def.len;      // progresso por segundo
-  /* origem: gera itens crus (pilha/pesca) */
-  if(def.spawn){
+  /* origem: gera itens crus (pilha/pesca), alternando tipos se preciso */
+  if(def.spawn||def.spawnAlt){
     belt.t-=dt;
     if(belt.t<=0&&belt.items.length<6&&!belt.items.some(it=>it.p<0.1)){
       belt.t=def.rate/g.beltMult;
-      belt.items.push({p:0,kind:def.spawn});
+      let kind=def.spawn;
+      if(def.spawnAlt){belt.alt=1-(belt.alt||0);kind=def.spawnAlt[belt.alt];}
+      belt.items.push({p:0,kind});
     }
   }
   /* coleta: pega comida pronta das churrasqueiras próximas do início */
@@ -786,13 +796,16 @@ function updateBelt(belt,dt){
   /* entrega no fim */
   const first=belt.items[0];
   if(first&&first.p>=1){
+    const [ex,ey]=def.path[def.path.length-1];
     if(def.feed){
-      const [ex,ey]=def.path[def.path.length-1];
       const st=g.stations.find(s=>def.feed.includes(s.kind)&&s.slots.some(x=>!x)&&dist(s.x,s.y,ex,ey)<215);
       if(st){const si=st.slots.findIndex(x=>!x);st.slots[si]={t:0};belt.items.shift();}
+    }else if(def.feedStock){
+      const st=g.stations.find(s=>s.kind==='skewer'&&dist(s.x,s.y,ex,ey)<215&&s.stock[first.kind]<6);
+      if(st){st.stock[first.kind]++;belt.items.shift();}
     }else if(def.deliver==='depot'){
       const tot=Object.values(g.counter.stock).reduce((a,b)=>a+b,0);
-      if(tot<12){g.counter.stock[first.kind]=(g.counter.stock[first.kind]||0)+1;belt.items.shift();}
+      if(tot<20){g.counter.stock[first.kind]=(g.counter.stock[first.kind]||0)+1;belt.items.shift();}
     }
   }
 }
@@ -1628,7 +1641,7 @@ function drawCounterDyn(t){
   }
   /* depósito automático (abastecido pela esteira do balcão) */
   const stock=Object.entries(cnt.stock).filter(([k,v])=>v>0);
-  if(G.belts.some(b=>b.id==='belt_serve')){
+  if(G.belts.some(b=>b.def.deliver==='depot')){
     const dx=x-34,dy=y-46;
     ctx.fillStyle='rgba(110,80,50,.25)';
     ctx.beginPath();ctx.ellipse(dx,dy+20,26,9,0,0,TAU);ctx.fill();
