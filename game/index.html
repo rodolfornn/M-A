@@ -232,6 +232,7 @@ const PADS=[
   {id:'helper1',zone:'camp',type:'helper',x:565, y:900, cost:150, icon:'🧑‍🍳',label:'Ajudante', lvl:2},
   {id:'cap1',   zone:'camp',type:'cap',   x:640, y:1010,cost:60,  icon:'🎒',label:'Mochila +3'},
   {id:'speed1', zone:'camp',type:'speed', x:770, y:1010,cost:80,  icon:'👢',label:'Botas +'},
+  {id:'store',  zone:'camp',type:'store', x:700, y:614,cost:100, icon:'📦',label:'Armazém',lvl:2},
   {id:'belt_meat', zone:'camp',type:'belt',x:545, y:838, cost:650, icon:'⚙️',label:'Esteira de carne',lvl:5},
   {id:'belt_serve',zone:'camp',type:'belt',x:1000,y:770, cost:950, icon:'⚙️',label:'Esteira do balcão',lvl:7},
   // cozinha
@@ -285,6 +286,11 @@ function beltPoint(def,p){
   return def.path[def.path.length-1];
 }
 
+/* armazém: bancada com um compartimento por tipo de item */
+const STORE={y:614,kinds:['rawmeat','rawfish','carne','sopa','peixe','espeto'],cap:20};
+STORE.slotX=i=>562+i*55;
+const KIND_ICON={rawmeat:'🥩',rawfish:'🐟',carne:'🍖',sopa:'🍲',peixe:'🍤',espeto:'🍢'};
+
 const PILE={x:290,y:800,r:150};             // pilha de carne
 const LAKE={x:1620,y:400,r:150};            // lago congelado
 const HOLE={x:1560,y:430};                  // buraco de pesca
@@ -303,7 +309,8 @@ const SAVE_KEY='snow-survivors-v2';
 let S=null;   // save state
 let G=null;   // runtime state
 function freshSave(){
-  return {money:0,earned:0,served:0,bought:[],zones:['camp'],sound:true,last:Date.now(),tut:0};
+  return {money:0,earned:0,served:0,bought:[],zones:['camp'],store:{},
+    sound:true,last:Date.now(),tut:0};
 }
 function loadSave(){
   try{const s=JSON.parse(localStorage.getItem(SAVE_KEY));
@@ -331,7 +338,7 @@ function rebuildWorld(){
     counter:{cash:0,bills:[],stock:{}},
     queue:[],leavers:[],custT:3,rushT:55,rushLeft:0,autoServeT:0,
     fx:[],smoke:[],steps:[],flakes:[],
-    capBase:5,speedBase:165,gmult:1,beltMult:1,
+    capBase:5,speedBase:165,gmult:1,beltMult:1,storeBuilt:false,
   };
   g.stations.push(makeGrill(GRILL1.x,GRILL1.y));
   for(const pad of PADS){
@@ -381,12 +388,14 @@ function applyPad(pad,g,silent){
     case 'helper': g.helpers.push({x:pad.x,y:pad.y+40,items:[],cap:4,speed:128,
       walk:0,face:1,serveT:0,coat:'#7a68c9'});break;
     case 'belt': g.belts.push({id:pad.id,def:BELT_DEFS[pad.id],items:[],t:1,pickT:0});break;
+    case 'store': g.storeBuilt=true;break;
     case 'cap': case 'speed': case 'gspeed': case 'beltspeed': break; // via recomputeStats
   }
   if(!silent){recomputeStats();redrawStatic();
     toast(pad.type==='house'?'Cabana construída! Mais fregueses virão.':
       pad.type==='helper'?'Ajudante contratado!':
       pad.type==='belt'?'Esteira instalada — automação!':
+      pad.type==='store'?'Armazém pronto! Guarde sobras e retire depois.':
       'Melhoria: '+pad.label+'!');}
 }
 function recomputeStats(){
@@ -583,6 +592,31 @@ function update(dt){
       }
     }
   }
+  /* armazém: guarda/retira por compartimento */
+  if(g.storeBuilt){
+    let cur=-1;
+    for(let i=0;i<STORE.kinds.length;i++){
+      if(dist(p.x,p.y,STORE.slotX(i),STORE.y)<34){cur=i;break;}
+    }
+    if(cur!==p.storeSlot){
+      p.storeSlot=cur;
+      if(cur>=0)p.storeMode=p.items.includes(STORE.kinds[cur])?'dep':'wd';
+    }
+    if(cur>=0){
+      p.storeT=(p.storeT||0)-dt;
+      if(p.storeT<=0){p.storeT=.15;
+        const kind=STORE.kinds[cur];
+        if(p.storeMode==='dep'){
+          const idx=p.items.indexOf(kind);
+          if(idx>=0&&(S.store[kind]||0)<STORE.cap){
+            p.items.splice(idx,1);S.store[kind]=(S.store[kind]||0)+1;sfx.drop();}
+        }else{
+          if((S.store[kind]||0)>0&&p.items.length<g.capBase){
+            S.store[kind]--;p.items.push(kind);sfx.pick();}
+        }
+      }
+    }
+  }
   /* servir */
   if(dist(p.x,p.y,COUNTER.x-52,COUNTER.y+56)<66){
     p.sT=(p.sT||0)-dt;
@@ -773,6 +807,17 @@ function computeHint(){
   const waiting=g.queue.some(q=>q.state==='wait');
   if(g.counter.cash>0){setHint('Pegue o dinheiro! 💵',{x:COUNTER.x,y:COUNTER.y+132});return;}
   if(cooked>0&&waiting){setHint('Sirva a fila!',{x:COUNTER.x-52,y:COUNTER.y+56});return;}
+  /* mochila cheia de coisa que o cliente da frente não quer? guarde */
+  const front=g.queue[0];
+  if(g.storeBuilt&&front&&front.state==='wait'&&p.items.length>=g.capBase&&
+     !p.items.includes(front.type)){
+    const k=STORE.kinds.indexOf(p.items[0]);
+    if(k>=0){setHint('Guarde as sobras no armazém 📦',{x:STORE.slotX(k),y:STORE.y});return;}}
+  /* cliente quer algo que está guardado no armazém */
+  if(g.storeBuilt&&front&&front.state==='wait'&&cooked===0&&
+     (S.store[front.type]||0)>0&&p.items.length<g.capBase){
+    setHint('Tem '+PRODUCTS[front.type].icon+' guardado — retire!',
+      {x:STORE.slotX(STORE.kinds.indexOf(front.type)),y:STORE.y});return;}
   const withOut=g.stations.find(s=>s.out>0);
   if(withOut&&cooked===0&&p.items.length<g.capBase){
     setHint('Comida pronta — pegue!',{x:withOut.x,y:withOut.y});return;}
@@ -836,7 +881,7 @@ $('btnReset').addEventListener('click',()=>{
 });
 $('btnGift').addEventListener('click',()=>{show(null);});
 function startGame(save){
-  S=save;soundOn=S.sound!==false;
+  S=save;S.store=S.store||{};soundOn=S.sound!==false;
   $('btnSound').textContent=soundOn?'🔊':'🔇';
   rebuildWorld();updateHUD();show(null);
   // ganhos offline
@@ -1185,6 +1230,7 @@ function drawDynamic(g){
   const ents=[];
   for(const tree of g.trees)ents.push({y:tree.y,d:()=>drawTreeStatic(ctx,tree.x,tree.y,tree.s)});
   for(const h of g.houses)ents.push({y:h.y+32,d:()=>drawHouseStatic(ctx,h.x,h.y)});
+  if(g.storeBuilt)ents.push({y:STORE.y+18,d:()=>drawStore(t)});
   for(const st of g.stations)ents.push({y:st.y,d:()=>drawStation(st,t)});
   ents.push({y:COUNTER.y+40,d:()=>{drawCounterStatic(ctx);drawCounterDyn(t);}});
   ents.push({y:g.player.y,d:()=>drawPerson(g.player,'#5a8fd6','#eef4fb',true,t)});
@@ -1507,6 +1553,61 @@ function drawSkewer(st,t){
       ctx.beginPath();ctx.ellipse(x+84,y-2-i*9,7,5,0,0,TAU);ctx.fill();}
     ctx.font='900 13px system-ui';ctx.fillStyle='#1f3348';
     ctx.fillText('×'+st.out,x+84,y-16-Math.min(st.out,6)*9);
+  }
+}
+function drawStore(t){
+  const y=STORE.y;
+  const x0=STORE.slotX(0)-30,x1=STORE.slotX(STORE.kinds.length-1)+30;
+  /* sombra + pernas + tampo */
+  ctx.fillStyle='rgba(110,80,50,.25)';
+  ctx.beginPath();ctx.ellipse((x0+x1)/2,y+22,(x1-x0)/2+8,14,0,0,TAU);ctx.fill();
+  ctx.fillStyle='#7c5730';
+  rr(ctx,x0+8,y+8,10,18,4);ctx.fill();rr(ctx,x1-18,y+8,10,18,4);ctx.fill();
+  rr(ctx,(x0+x1)/2-5,y+8,10,18,4);ctx.fill();
+  ctx.fillStyle=vgrad(ctx,0,y-14,y+12,'#cf9d60','#a1743e');
+  rr(ctx,x0,y-12,x1-x0,26,10);ctx.fill();
+  ctx.fillStyle='#efd6a6';rr(ctx,x0-4,y-20,x1-x0+8,12,6);ctx.fill();
+  /* plaquinha */
+  ctx.font='900 11px system-ui';ctx.textAlign='center';
+  ctx.fillStyle='rgba(93,64,32,.75)';ctx.fillText('ARMAZÉM',(x0+x1)/2,y+4);
+  /* compartimentos */
+  for(let i=0;i<STORE.kinds.length;i++){
+    const sx=STORE.slotX(i),kind=STORE.kinds[i],n=S.store[kind]||0;
+    if(i>0){ctx.strokeStyle='rgba(110,75,40,.4)';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(sx-27,y-18);ctx.lineTo(sx-27,y-8);ctx.stroke();}
+    if(n===0){
+      ctx.globalAlpha=.4;ctx.font='15px system-ui';
+      ctx.fillText(KIND_ICON[kind],sx,y-20);ctx.globalAlpha=1;
+    }else{
+      const show=Math.min(n,5);
+      for(let j=0;j<show;j++){
+        const sy=y-24-j*6;
+        if(kind==='rawmeat')drawSteakS(ctx,sx,sy,8,0.15);
+        else if(kind==='rawfish'){ctx.fillStyle='#8fb8d8';
+          ctx.beginPath();ctx.ellipse(sx,sy,9,4.5,0.1,0,TAU);ctx.fill();}
+        else if(kind==='carne')drawSteakCooked(sx,sy,8);
+        else if(kind==='peixe')drawFishCooked(sx,sy);
+        else if(kind==='sopa'){ctx.fillStyle='#e8a84f';
+          ctx.beginPath();ctx.ellipse(sx,sy,8,5,0,0,TAU);ctx.fill();
+          ctx.strokeStyle='#d9d2c4';ctx.lineWidth=2;
+          ctx.beginPath();ctx.ellipse(sx,sy,9.5,6,0,0,TAU);ctx.stroke();}
+        else{ctx.strokeStyle='#e6d3ae';ctx.lineWidth=2.5;
+          ctx.beginPath();ctx.moveTo(sx,sy+5);ctx.lineTo(sx,sy-7);ctx.stroke();
+          ctx.fillStyle='#b4623a';
+          ctx.beginPath();ctx.ellipse(sx,sy-1,6,4.5,0,0,TAU);ctx.fill();}
+      }
+      ctx.font='900 11px system-ui';ctx.fillStyle='#1f3348';
+      ctx.fillText('×'+n,sx,y-28-show*6);
+    }
+  }
+  /* indicador do modo quando o jogador está num compartimento */
+  const p=G.player;
+  if(p.storeSlot>=0&&p.storeSlot<STORE.kinds.length){
+    const sx=STORE.slotX(p.storeSlot);
+    const bob=Math.sin(t*7)*3;
+    ctx.font='900 13px system-ui';
+    ctx.fillStyle=p.storeMode==='dep'?'#d95555':'#5cb96b';
+    ctx.fillText(p.storeMode==='dep'?'▼ guardar':'▲ retirar',sx,y+42+bob);
   }
 }
 function drawCounterDyn(t){
