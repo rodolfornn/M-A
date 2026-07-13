@@ -106,7 +106,7 @@
     </div>
     <button class="bigbtn primary" id="btnPlay">JOGAR</button>
     <button class="bigbtn danger hidden" id="btnReset">Recomeçar do zero</button>
-    <div id="tinyfoot">5 zonas para expandir • 40 níveis de acampamento • ajudantes • ganhos offline<br>toque e arraste para andar • WASD no PC</div>
+    <div id="tinyfoot">5 zonas • 40 níveis • esteiras e automação • ondas de rush • ganhos offline<br>toque e arraste para andar • WASD no PC</div>
   </div>
 </div>
 
@@ -232,6 +232,8 @@ const PADS=[
   {id:'helper1',zone:'camp',type:'helper',x:565, y:900, cost:150, icon:'🧑‍🍳',label:'Ajudante', lvl:2},
   {id:'cap1',   zone:'camp',type:'cap',   x:640, y:1010,cost:60,  icon:'🎒',label:'Mochila +3'},
   {id:'speed1', zone:'camp',type:'speed', x:770, y:1010,cost:80,  icon:'👢',label:'Botas +'},
+  {id:'belt_meat', zone:'camp',type:'belt',x:545, y:838, cost:650, icon:'⚙️',label:'Esteira de carne',lvl:5},
+  {id:'belt_serve',zone:'camp',type:'belt',x:1000,y:770, cost:950, icon:'⚙️',label:'Esteira do balcão',lvl:7},
   // cozinha
   {id:'pot',    zone:'cozinha',type:'pot',    x:1400,y:880, cost:120,icon:'🍲',label:'Panela de sopa'},
   {id:'grill3', zone:'cozinha',type:'grill',  x:1590,y:880, cost:150,icon:'🔥',label:'Churrasqueira'},
@@ -242,12 +244,14 @@ const PADS=[
   {id:'fgrill2',zone:'pesqueiro',type:'fishgrill',x:1400,y:520,cost:320,icon:'🐟',label:'Grelha de peixe'},
   {id:'helper3',zone:'pesqueiro',type:'helper',x:1330,y:410, cost:420,icon:'🧑‍🍳',label:'Ajudante',lvl:5},
   {id:'cap2',   zone:'pesqueiro',type:'cap',  x:1780,y:560, cost:260,icon:'🎒',label:'Mochila +3'},
+  {id:'belt_fish',zone:'pesqueiro',type:'belt',x:1490,y:360,cost:1200,icon:'⚙️',label:'Esteira de pesca',lvl:8},
   // vila
   {id:'house1', zone:'vila',type:'house',x:560, y:300,cost:320, icon:'⛺',label:'Cabana'},
   {id:'house2', zone:'vila',type:'house',x:770, y:300,cost:520, icon:'⛺',label:'Cabana'},
   {id:'house3', zone:'vila',type:'house',x:980, y:300,cost:780, icon:'⛺',label:'Cabana'},
   {id:'speed2', zone:'vila',type:'speed',x:1090,y:390,cost:340, icon:'👢',label:'Botas ++'},
   {id:'cap3',   zone:'vila',type:'cap',  x:490, y:390,cost:320, icon:'🎒',label:'Mochila +3'},
+  {id:'beltspeed',zone:'vila',type:'beltspeed',x:870,y:390,cost:900,icon:'⚡',label:'Esteiras turbo',lvl:10},
   // festival
   {id:'skewer', zone:'festival',type:'skewer',x:940, y:1370,cost:520,icon:'🍢',label:'Espetão real',reqZone:'pesqueiro'},
   {id:'gspeed2',zone:'festival',type:'gspeed',x:1220,y:1370,cost:480,icon:'♨️',label:'Brasa forte'},
@@ -255,6 +259,31 @@ const PADS=[
   {id:'speed3', zone:'festival',type:'speed', x:760, y:1500,cost:420,icon:'👢',label:'Botas +++'},
   {id:'cap4',   zone:'festival',type:'cap',   x:1120,y:1500,cost:460,icon:'🎒',label:'Mochila +3'},
 ];
+
+/* esteiras: caminho no mundo + o que transportam */
+const BELT_DEFS={
+  belt_meat:{path:[[440,806],[560,852],[672,880]],rate:2.0,spawn:'rawmeat',feed:['grill','pot']},
+  belt_serve:{path:[[906,868],[1014,782],[1082,606]],rate:0,pickup:205,deliver:'depot'},
+  belt_fish:{path:[[1546,400],[1478,352],[1432,320]],rate:2.4,spawn:'rawfish',feed:['fishgrill']},
+};
+for(const b of Object.values(BELT_DEFS)){
+  b.segs=[];b.len=0;
+  for(let i=1;i<b.path.length;i++){
+    const l=dist(b.path[i-1][0],b.path[i-1][1],b.path[i][0],b.path[i][1]);
+    b.segs.push(l);b.len+=l;
+  }
+}
+function beltPoint(def,p){
+  let d=p*def.len;
+  for(let i=0;i<def.segs.length;i++){
+    if(d<=def.segs[i]||i===def.segs.length-1){
+      const t=clamp(d/def.segs[i],0,1);
+      return [lerp(def.path[i][0],def.path[i+1][0],t),lerp(def.path[i][1],def.path[i+1][1],t)];
+    }
+    d-=def.segs[i];
+  }
+  return def.path[def.path.length-1];
+}
 
 const PILE={x:290,y:800,r:150};             // pilha de carne
 const LAKE={x:1620,y:400,r:150};            // lago congelado
@@ -298,11 +327,11 @@ function makeSkewer(x,y){return {x,y,kind:'skewer',slots:[null,null],out:0,outKi
 function rebuildWorld(){
   const g={
     time:0,player:{x:830,y:700,vx:0,vy:0,face:1,items:[],walk:0,breath:0},
-    helpers:[],villagers:[],stations:[],houses:[],
-    counter:{cash:0,bills:[]},
-    queue:[],leavers:[],custT:3,
+    helpers:[],villagers:[],stations:[],houses:[],belts:[],
+    counter:{cash:0,bills:[],stock:{}},
+    queue:[],leavers:[],custT:3,rushT:55,rushLeft:0,autoServeT:0,
     fx:[],smoke:[],steps:[],flakes:[],
-    capBase:5,speedBase:165,gmult:1,
+    capBase:5,speedBase:165,gmult:1,beltMult:1,
   };
   g.stations.push(makeGrill(GRILL1.x,GRILL1.y));
   for(const pad of PADS){
@@ -351,29 +380,35 @@ function applyPad(pad,g,silent){
       if(!silent)g.villagers.push(ambientVillager());break;
     case 'helper': g.helpers.push({x:pad.x,y:pad.y+40,items:[],cap:4,speed:128,
       walk:0,face:1,serveT:0,coat:'#7a68c9'});break;
-    case 'cap': case 'speed': case 'gspeed': break; // via recomputeStats
+    case 'belt': g.belts.push({id:pad.id,def:BELT_DEFS[pad.id],items:[],t:1,pickT:0});break;
+    case 'cap': case 'speed': case 'gspeed': case 'beltspeed': break; // via recomputeStats
   }
   if(!silent){recomputeStats();redrawStatic();
     toast(pad.type==='house'?'Cabana construída! Mais fregueses virão.':
       pad.type==='helper'?'Ajudante contratado!':
+      pad.type==='belt'?'Esteira instalada — automação!':
       'Melhoria: '+pad.label+'!');}
 }
 function recomputeStats(){
   const g=G;
-  let cap=5,speed=165,gm=1;
+  let cap=5,speed=165,gm=1,bm=1;
   for(const pad of PADS){
     if(!S.bought.includes(pad.id))continue;
     if(pad.type==='cap')cap+=3;
     if(pad.type==='speed')speed+=30;
     if(pad.type==='gspeed')gm*=1.45;
+    if(pad.type==='beltspeed')bm*=1.7;
   }
-  g.capBase=cap;g.speedBase=speed;g.gmult=gm;
+  g.capBase=cap;g.speedBase=speed;g.gmult=gm;g.beltMult=bm;
   for(const st of g.stations)st.mult=gm;
 }
 const level=()=>levelFromXp(S.earned);
 const housesN=()=>G?G.houses.length:0;
-function custInterval(){return clamp(6.4-level()*0.14-housesN()*0.5,2.2,6.4);}
-function custMax(){return Math.min(10,4+housesN()+Math.floor(level()/3));}
+/* dificuldade: quanto mais você evolui, mais rápido e exigente fica */
+function custInterval(){return clamp(4.6-level()*0.18-housesN()*0.4,1.1,4.6);}
+function custMax(){return Math.min(11,4+housesN()+Math.floor(level()/2));}
+function custPatience(){return clamp(58-level()*1.2,26,58);}
+function custWalkSpd(){return Math.min(180,95+level()*4);}
 function productsAvailable(){
   const list=['carne'];
   if(G.stations.some(s=>s.kind==='pot'))list.push('sopa');
@@ -387,24 +422,22 @@ function productsAvailable(){
    ============================================================ */
 /* a fila se estende pelo corredor de neve entre o Pesqueiro e a Cozinha */
 function queueSlot(i){return {x:1252+i*64,y:652+i*7};}
-function spawnCustomer(){
-  if(G.queue.length>=custMax())return;
+function spawnCustomer(force){
+  if(!force&&G.queue.length>=custMax())return;
+  if(G.queue.length>=13)return;
   const avail=productsAvailable();
   const weights={carne:45,sopa:26,peixe:20,espeto:9};
   let tot=0;for(const p of avail)tot+=weights[p];
   let roll=Math.random()*tot,type=avail[0];
   for(const p of avail){roll-=weights[p];if(roll<=0){type=p;break;}}
-  const need=1+Math.floor(Math.random()*Math.min(3,1+level()/5));
+  const need=1+Math.floor(Math.random()*Math.min(5,1+level()/3));
   const coats=['#d95555','#d95555','#c9803f','#4f9a8a'];
   G.queue.push({x:1960,y:610+Math.random()*70,walk:0,type,need,got:0,state:'in',
-    pat:70,bob:Math.random()*TAU,coat:coats[Math.floor(Math.random()*coats.length)]});
+    pat:custPatience(),spd:custWalkSpd(),bob:Math.random()*TAU,
+    coat:coats[Math.floor(Math.random()*coats.length)]});
 }
-function tryServe(who){
-  const cust=G.queue[0];
-  if(!cust||cust.state!=='wait')return false;
-  const idx=who.items.indexOf(cust.type);
-  if(idx<0)return false;
-  who.items.splice(idx,1);
+/* dá 1 item ao cliente (do jogador, ajudante ou depósito) */
+function giveToCustomer(cust){
   cust.got++;sfx.serve();
   G.fx.push({k:'pop',x:cust.x,y:cust.y-52,t:0,txt:PRODUCTS[cust.type].icon});
   if(cust.got>=cust.need){
@@ -417,6 +450,14 @@ function tryServe(who){
         r:Math.random()*1.2-.6});
     G.fx.push({k:'pop',x:cust.x,y:cust.y-66,t:0,txt:'❤️'});
   }
+}
+function tryServe(who){
+  const cust=G.queue[0];
+  if(!cust||cust.state!=='wait')return false;
+  const idx=who.items.indexOf(cust.type);
+  if(idx<0)return false;
+  who.items.splice(idx,1);
+  giveToCustomer(cust);
   return true;
 }
 
@@ -625,14 +666,34 @@ function update(dt){
       else{v.x+=(v.tx-v.x)/d*46*dt;v.y+=(v.ty-v.y)/d*46*dt;
         v.face=(v.tx-v.x)>0?1:-1;v.walk+=dt*7;}}
   }
+  /* esteiras */
+  for(const belt of g.belts)updateBelt(belt,dt);
+  /* depósito do balcão serve sozinho */
+  g.autoServeT-=dt;
+  if(g.autoServeT<=0){g.autoServeT=0.9;
+    const cu=g.queue[0];
+    if(cu&&cu.state==='wait'&&(g.counter.stock[cu.type]||0)>0){
+      g.counter.stock[cu.type]--;giveToCustomer(cu);}
+  }
   /* clientes */
   g.custT-=dt;
   if(g.custT<=0){g.custT=custInterval()*(0.8+Math.random()*0.4);spawnCustomer();}
+  /* onda de RUSH: multidão de uma vez, cada vez maior */
+  g.rushT-=dt;
+  if(g.rushLeft>0){g.rushSpawnT-=dt;
+    if(g.rushSpawnT<=0){g.rushSpawnT=0.35;spawnCustomer(true);g.rushLeft--;}}
+  if(g.rushT<=0){
+    g.rushT=60+Math.random()*45;
+    g.rushLeft=Math.min(8,3+Math.floor(level()/2));
+    g.rushSpawnT=0;
+    sfx.zone();banner('🔔 RUSH!','Uma multidão faminta chegou — corra!');
+  }
   for(let i=g.queue.length-1;i>=0;i--){
     const cu=g.queue[i];
     const slot=queueSlot(i);
     const d=dist(cu.x,cu.y,slot.x,slot.y);
-    if(d>4){cu.x+=(slot.x-cu.x)/d*Math.min(d,95*dt);cu.y+=(slot.y-cu.y)/d*Math.min(d,95*dt);
+    const spd=cu.spd||95;
+    if(d>4){cu.x+=(slot.x-cu.x)/d*Math.min(d,spd*dt);cu.y+=(slot.y-cu.y)/d*Math.min(d,spd*dt);
       cu.walk+=dt*9;cu.state='in';}
     else cu.state='wait';
     cu.bob+=dt*3;
@@ -657,6 +718,49 @@ function update(dt){
 
   persistT-=dt;if(persistT<=0){persistT=4;persist();}
   computeHint();
+}
+
+/* ---------------- esteiras ---------------- */
+function updateBelt(belt,dt){
+  const g=G,def=belt.def;
+  const spd=(95*g.beltMult)/def.len;      // progresso por segundo
+  /* origem: gera itens crus (pilha/pesca) */
+  if(def.spawn){
+    belt.t-=dt;
+    if(belt.t<=0&&belt.items.length<6&&!belt.items.some(it=>it.p<0.1)){
+      belt.t=def.rate/g.beltMult;
+      belt.items.push({p:0,kind:def.spawn});
+    }
+  }
+  /* coleta: pega comida pronta das churrasqueiras próximas do início */
+  if(def.pickup){
+    belt.pickT-=dt;
+    if(belt.pickT<=0&&belt.items.length<6&&!belt.items.some(it=>it.p<0.1)){
+      belt.pickT=0.5;
+      const [sx,sy]=def.path[0];
+      const st=g.stations.find(s=>s.out>0&&s.kind!=='skewer'&&dist(s.x,s.y,sx,sy)<def.pickup);
+      if(st){st.out--;belt.items.push({p:0,kind:st.outKind});}
+    }
+  }
+  /* movimento com espaçamento */
+  belt.items.sort((a,b)=>b.p-a.p);
+  for(let i=0;i<belt.items.length;i++){
+    const it=belt.items[i];
+    const limit=i===0?1:belt.items[i-1].p-0.09;
+    it.p=Math.min(it.p+spd*dt,Math.max(0,limit));
+  }
+  /* entrega no fim */
+  const first=belt.items[0];
+  if(first&&first.p>=1){
+    if(def.feed){
+      const [ex,ey]=def.path[def.path.length-1];
+      const st=g.stations.find(s=>def.feed.includes(s.kind)&&s.slots.some(x=>!x)&&dist(s.x,s.y,ex,ey)<215);
+      if(st){const si=st.slots.findIndex(x=>!x);st.slots[si]={t:0};belt.items.shift();}
+    }else if(def.deliver==='depot'){
+      const tot=Object.values(g.counter.stock).reduce((a,b)=>a+b,0);
+      if(tot<12){g.counter.stock[first.kind]=(g.counter.stock[first.kind]||0)+1;belt.items.shift();}
+    }
+  }
 }
 
 /* ---------------- dicas ---------------- */
@@ -738,16 +842,16 @@ function startGame(save){
   // ganhos offline
   const mins=(Date.now()-(S.last||Date.now()))/60000;
   const helpers=G.helpers.length;
-  if(mins>2&&helpers>0){
-    const perMin=helpers*20*(1+0.06*level());
+  if(mins>2&&(helpers>0||G.belts.length>0)){
+    const perMin=(helpers*20+G.belts.length*14)*(1+0.06*level());
     const gain=Math.round(Math.min(perMin*mins,perMin*120));
     if(gain>=20){
       S.money+=gain;S.earned+=gain;updateHUD();persist();
       $('giftAmt').textContent=fmt(gain);
       const dur=mins>120?'mais de 2 horas':Math.round(mins)+' minutos';
-      $('giftSub').textContent=helpers>1
-        ?'Seus '+helpers+' ajudantes trabalharam por '+dur+' enquanto você estava fora.'
-        :'Seu ajudante trabalhou por '+dur+' enquanto você estava fora.';
+      $('giftSub').textContent=helpers>0
+        ?'Seus ajudantes e esteiras trabalharam por '+dur+' enquanto você estava fora.'
+        :'Suas esteiras rodaram por '+dur+' enquanto você estava fora.';
       show('ovGift');
     }
   }
@@ -1069,6 +1173,8 @@ function drawDynamic(g){
     if(zid==='camp'||S.zones.includes(zid))continue;
     drawGate(z,t);
   }
+  /* esteiras (no chão, sob as pessoas) */
+  for(const belt of g.belts)drawBelt(belt,t);
   /* placas de compra */
   for(const pad of PADS){
     if(S.bought.includes(pad.id))continue;
@@ -1117,6 +1223,58 @@ function drawDynamic(g){
       ctx.strokeText(f.txt,f.x,f.y-f.t*48);ctx.fillText(f.txt,f.x,f.y-f.t*48);}
     ctx.globalAlpha=1;
   }
+}
+function drawBelt(belt,t){
+  const def=belt.def;
+  ctx.save();
+  /* sombra e base */
+  ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.strokeStyle='rgba(40,50,66,.3)';ctx.lineWidth=34;
+  ctx.beginPath();ctx.moveTo(def.path[0][0]+3,def.path[0][1]+6);
+  for(let i=1;i<def.path.length;i++)ctx.lineTo(def.path[i][0]+3,def.path[i][1]+6);
+  ctx.stroke();
+  ctx.strokeStyle='#3a4658';ctx.lineWidth=32;
+  ctx.beginPath();ctx.moveTo(def.path[0][0],def.path[0][1]);
+  for(let i=1;i<def.path.length;i++)ctx.lineTo(def.path[i][0],def.path[i][1]);
+  ctx.stroke();
+  ctx.strokeStyle='#4d5b70';ctx.lineWidth=24;
+  ctx.beginPath();ctx.moveTo(def.path[0][0],def.path[0][1]);
+  for(let i=1;i<def.path.length;i++)ctx.lineTo(def.path[i][0],def.path[i][1]);
+  ctx.stroke();
+  /* setas em movimento */
+  const flow=(t*95*G.beltMult)%36;
+  ctx.strokeStyle='rgba(220,230,244,.55)';ctx.lineWidth=3;
+  for(let d=flow;d<def.len;d+=36){
+    const p=d/def.len;
+    const [ax,ay]=beltPoint(def,p);
+    const [bx,by]=beltPoint(def,Math.min(1,p+8/def.len));
+    const ang=Math.atan2(by-ay,bx-ax);
+    ctx.save();ctx.translate(ax,ay);ctx.rotate(ang);
+    ctx.beginPath();ctx.moveTo(-4,-6);ctx.lineTo(3,0);ctx.lineTo(-4,6);ctx.stroke();
+    ctx.restore();
+  }
+  /* engrenagens nas pontas */
+  for(const end of [def.path[0],def.path[def.path.length-1]]){
+    ctx.fillStyle='#2c3646';
+    ctx.beginPath();ctx.arc(end[0],end[1],9,0,TAU);ctx.fill();
+    ctx.fillStyle='#8494aa';
+    ctx.beginPath();ctx.arc(end[0],end[1],4,0,TAU);ctx.fill();
+  }
+  /* itens transportados */
+  for(const it of belt.items){
+    const [x,y]=beltPoint(def,it.p);
+    if(it.kind==='rawmeat')drawSteakS(ctx,x,y-6,9,0.2);
+    else if(it.kind==='rawfish'){
+      ctx.fillStyle='#8fb8d8';
+      ctx.beginPath();ctx.ellipse(x,y-6,10,5,0.1,0,TAU);ctx.fill();
+      ctx.fillStyle='#8fb8d8';
+      ctx.beginPath();ctx.moveTo(x+9,y-6);ctx.lineTo(x+14,y-9);ctx.lineTo(x+14,y-3);ctx.closePath();ctx.fill();}
+    else if(it.kind==='carne')drawSteakCooked(x,y-6,9);
+    else if(it.kind==='peixe')drawFishCooked(x,y-6);
+    else if(it.kind==='sopa'){ctx.fillStyle='#e8a84f';
+      ctx.beginPath();ctx.ellipse(x,y-6,9,5.5,0,0,TAU);ctx.fill();}
+  }
+  ctx.restore();
 }
 function drawGate(z,t){
   const {x,y}=z.gate;
@@ -1367,6 +1525,26 @@ function drawCounterDyn(t){
     ctx.strokeText('💵 '+cnt.cash,x+2,y+100);
     ctx.fillText('💵 '+cnt.cash,x+2,y+100);
   }
+  /* depósito automático (abastecido pela esteira do balcão) */
+  const stock=Object.entries(cnt.stock).filter(([k,v])=>v>0);
+  if(G.belts.some(b=>b.id==='belt_serve')){
+    const dx=x-34,dy=y-46;
+    ctx.fillStyle='rgba(110,80,50,.25)';
+    ctx.beginPath();ctx.ellipse(dx,dy+20,26,9,0,0,TAU);ctx.fill();
+    ctx.fillStyle=vgrad(ctx,dx,dy-8,dy+18,'#cf9d60','#9c7038');
+    rr(ctx,dx-22,dy-8,44,26,8);ctx.fill();
+    ctx.fillStyle='#efd6a6';rr(ctx,dx-25,dy-14,50,10,5);ctx.fill();
+    let i=0,totS=0;
+    for(const [k,v] of stock){totS+=v;
+      for(let j=0;j<Math.min(v,6);j++){
+        if(k==='carne')drawSteakCooked(dx,dy-20-(i*6+j)*6,8);
+        else if(k==='peixe')drawFishCooked(dx,dy-20-(i*6+j)*6);
+        else{ctx.fillStyle='#e8a84f';
+          ctx.beginPath();ctx.ellipse(dx,dy-20-(i*6+j)*6,8,5,0,0,TAU);ctx.fill();}
+      }i++;}
+    if(totS>0){ctx.font='900 12px system-ui';ctx.textAlign='center';
+      ctx.fillStyle='#1f3348';ctx.fillText('×'+totS,dx-32,dy-8);}
+  }
 }
 function lerpColor(a,b,t){
   const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16));
@@ -1474,6 +1652,13 @@ function drawBubble(cu){
   ctx.fillText(PRODUCTS[cu.type].icon,x-9,by+7);
   ctx.font='900 14px system-ui';ctx.fillStyle='#1f3348';
   ctx.fillText('×'+wtxt,x+13,by+6);
+  /* paciência acabando: barra vermelha piscando */
+  if(cu.pat<20){
+    const pr=cu.pat/20;
+    ctx.fillStyle='rgba(31,51,72,.4)';rr(ctx,x-20,by+22,40,6,3);ctx.fill();
+    const blink=cu.pat<8?(Math.sin(cu.bob*4)>0?1:.4):1;
+    ctx.fillStyle='rgba(217,85,85,'+blink+')';rr(ctx,x-20,by+22,40*pr,6,3);ctx.fill();
+  }
 }
 function drawScreenSnow(g){
   ctx.fillStyle='rgba(255,255,255,.85)';
