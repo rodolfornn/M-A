@@ -303,6 +303,7 @@ const PILE={x:290,y:800,r:150};             // pilha de carne
 const LAKE={x:1620,y:400,r:150};            // lago congelado
 const HOLE={x:1560,y:430};                  // buraco de pesca
 const COUNTER={x:1120,y:600};               // balcão principal
+const DEPOT={x:1086,y:554};                 // depósito abastecido pelas esteiras
 const GRILL1={x:710,y:900};                 // churrasqueira inicial (grátis)
 
 /* níveis de acampamento: xp = dinheiro total ganho */
@@ -674,6 +675,20 @@ function update(dt){
   if(dist(p.x,p.y,COUNTER.x-52,COUNTER.y+56)<66){
     p.sT=(p.sT||0)-dt;
     if(p.sT<=0){p.sT=.22;tryServe(p);}
+  }
+  /* pegar do depósito das esteiras */
+  if(g.belts.some(b=>b.def.deliver==='depot')&&dist(p.x,p.y,DEPOT.x,DEPOT.y)<56){
+    p.depT=(p.depT||0)-dt;
+    if(p.depT<=0){p.depT=.15;
+      if(p.items.length<g.capBase){
+        const st=g.counter.stock;
+        let kind=null;
+        const fr=g.queue[0];
+        if(fr&&fr.state==='wait'&&(st[fr.type]||0)>0)kind=fr.type;
+        else{let mx=0;for(const k in st)if(st[k]>mx){mx=st[k];kind=k;}}
+        if(kind&&st[kind]>0){st[kind]--;p.items.push(kind);sfx.pick();}
+      }
+    }
   }
   /* pegar dinheiro */
   if(g.counter.cash>0&&dist(p.x,p.y,COUNTER.x,COUNTER.y+132)<60){
@@ -1684,10 +1699,10 @@ function drawCounterDyn(t){
     ctx.strokeText('💵 '+cnt.cash,x+2,y+100);
     ctx.fillText('💵 '+cnt.cash,x+2,y+100);
   }
-  /* depósito automático (abastecido pela esteira do balcão) */
+  /* depósito automático (abastecido pelas esteiras) */
   const stock=Object.entries(cnt.stock).filter(([k,v])=>v>0);
   if(G.belts.some(b=>b.def.deliver==='depot')){
-    const dx=x-34,dy=y-46;
+    const dx=DEPOT.x,dy=DEPOT.y;
     ctx.fillStyle='rgba(110,80,50,.25)';
     ctx.beginPath();ctx.ellipse(dx,dy+20,26,9,0,0,TAU);ctx.fill();
     ctx.fillStyle=vgrad(ctx,dx,dy-8,dy+18,'#cf9d60','#9c7038');
@@ -1703,6 +1718,13 @@ function drawCounterDyn(t){
       }i++;}
     if(totS>0){ctx.font='900 12px system-ui';ctx.textAlign='center';
       ctx.fillStyle='#1f3348';ctx.fillText('×'+totS,dx-32,dy-8);}
+    /* jogador no alcance: mostra que dá para retirar */
+    const p=G.player;
+    if(totS>0&&dist(p.x,p.y,dx,dy)<56){
+      const bob=Math.sin(t*7)*3;
+      ctx.font='900 13px system-ui';ctx.fillStyle='#5cb96b';
+      ctx.fillText('▲ retirar',dx,dy+40+bob);
+    }
   }
 }
 function lerpColor(a,b,t){
