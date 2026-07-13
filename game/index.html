@@ -459,7 +459,10 @@ function giveToCustomer(cust){
   cust.got++;sfx.serve();
   G.fx.push({k:'pop',x:cust.x,y:cust.y-52,t:0,txt:PRODUCTS[cust.type].icon});
   if(cust.got>=cust.need){
-    cust.state='leave';G.queue.shift();G.leavers.push(cust);
+    cust.state='leave';
+    const qi=G.queue.indexOf(cust);
+    if(qi>=0)G.queue.splice(qi,1);
+    G.leavers.push(cust);
     S.served++;
     const pay=Math.round(cust.need*PRODUCTS[cust.type].price);
     G.counter.cash+=pay;
@@ -770,12 +773,12 @@ function update(dt){
   }
   /* esteiras */
   for(const belt of g.belts)updateBelt(belt,dt);
-  /* depósito do balcão serve sozinho */
+  /* depósito do balcão serve sozinho — qualquer cliente da fila cujo
+     pedido esteja em estoque (não trava se o primeiro quer outra coisa) */
   g.autoServeT-=dt;
-  if(g.autoServeT<=0){g.autoServeT=0.9;
-    const cu=g.queue[0];
-    if(cu&&cu.state==='wait'&&(g.counter.stock[cu.type]||0)>0){
-      g.counter.stock[cu.type]--;giveToCustomer(cu);}
+  if(g.autoServeT<=0){g.autoServeT=0.85;
+    const cu=g.queue.find(c=>c.state==='wait'&&(g.counter.stock[c.type]||0)>0);
+    if(cu){g.counter.stock[cu.type]--;giveToCustomer(cu);}
   }
   /* clientes */
   g.custT-=dt;
