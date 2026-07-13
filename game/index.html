@@ -295,8 +295,9 @@ function beltPoint(def,p){
 }
 
 /* armazém: bancada com um compartimento por tipo de item */
-const STORE={y:614,kinds:['rawmeat','rawfish','carne','sopa','peixe','espeto'],cap:20};
+const STORE={y:614,kinds:['rawmeat','rawfish','carne','sopa','peixe','espeto'],cap:999};
 STORE.slotX=i=>562+i*55;
+const TRASH={x:944,y:656};                  // lixeira: joga fora o que carrega
 const KIND_ICON={rawmeat:'🥩',rawfish:'🐟',carne:'🍖',sopa:'🍲',peixe:'🍤',espeto:'🍢'};
 
 const PILE={x:290,y:800,r:150};             // pilha de carne
@@ -672,6 +673,14 @@ function update(dt){
             S.store[kind]--;p.items.push(kind);sfx.pick();}
         }
       }
+    }
+  }
+  /* lixeira: descarta o que está na mochila */
+  if(p.items.length>0&&dist(p.x,p.y,TRASH.x,TRASH.y)<46){
+    p.trashT=(p.trashT||0)-dt;
+    if(p.trashT<=0){p.trashT=.12;
+      p.items.pop();sfx.drop();
+      g.fx.push({k:'pop',x:TRASH.x,y:TRASH.y-40,t:0,txt:'💨'});
     }
   }
   /* servir */
@@ -1307,6 +1316,7 @@ function drawDynamic(g){
   for(const tree of g.trees)ents.push({y:tree.y,d:()=>drawTreeStatic(ctx,tree.x,tree.y,tree.s)});
   for(const h of g.houses)ents.push({y:h.y+32,d:()=>drawHouseStatic(ctx,h.x,h.y)});
   if(g.storeBuilt)ents.push({y:STORE.y+18,d:()=>drawStore(t)});
+  ents.push({y:TRASH.y+6,d:()=>drawTrash(t)});
   for(const st of g.stations)ents.push({y:st.y,d:()=>drawStation(st,t)});
   ents.push({y:COUNTER.y+40,d:()=>{drawCounterStatic(ctx);drawCounterDyn(t);}});
   ents.push({y:g.player.y,d:()=>drawPerson(g.player,'#5a8fd6','#eef4fb',true,t)});
@@ -1684,6 +1694,38 @@ function drawStore(t){
     ctx.font='900 13px system-ui';
     ctx.fillStyle=p.storeMode==='dep'?'#d95555':'#5cb96b';
     ctx.fillText(p.storeMode==='dep'?'▼ guardar':'▲ retirar',sx,y+42+bob);
+  }
+}
+function drawTrash(t){
+  const {x,y}=TRASH;
+  ctx.fillStyle='rgba(90,105,130,.3)';
+  ctx.beginPath();ctx.ellipse(x,y+12,20,7,0,0,TAU);ctx.fill();
+  /* balde metálico */
+  ctx.fillStyle=vgrad(ctx,x,y-28,y+12,'#8b9cb2','#5a6a7e');
+  ctx.beginPath();
+  ctx.moveTo(x-15,y-24);ctx.lineTo(x+15,y-24);ctx.lineTo(x+12,y+10);ctx.lineTo(x-12,y+10);
+  ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(40,52,68,.4)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(x-6,y-18);ctx.lineTo(x-5,y+4);ctx.moveTo(x+6,y-18);ctx.lineTo(x+5,y+4);ctx.stroke();
+  /* tampa */
+  ctx.fillStyle='#6d7f95';
+  ctx.beginPath();ctx.ellipse(x,y-26,17,6,0,0,TAU);ctx.fill();
+  ctx.fillStyle='#8b9cb2';
+  ctx.beginPath();ctx.ellipse(x,y-28,17,5,0,0,TAU);ctx.fill();
+  ctx.fillStyle='#5a6a7e';
+  rr(ctx,x-4,y-36,8,6,3);ctx.fill();
+  /* neve em cima */
+  ctx.fillStyle='rgba(246,250,255,.9)';
+  ctx.beginPath();ctx.ellipse(x-6,y-31,7,2.5,0,0,TAU);ctx.fill();
+  ctx.font='11px system-ui';ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  ctx.fillText('🗑️',x,y-4);
+  /* jogador no alcance carregando algo */
+  const p=G.player;
+  if(p.items.length>0&&dist(p.x,p.y,x,y)<46){
+    const bob=Math.sin(t*7)*3;
+    ctx.font='900 13px system-ui';ctx.fillStyle='#d95555';
+    ctx.fillText('▼ jogar fora',x,y+34+bob);
   }
 }
 function drawCounterDyn(t){
