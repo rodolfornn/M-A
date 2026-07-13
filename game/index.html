@@ -486,6 +486,20 @@ function tryServe(who){
 /* ============================================================
    AJUDANTES (IA)
    ============================================================ */
+/* estação cuja entrada já é abastecida por uma esteira comprada */
+function beltCoversInput(st){
+  return G.belts.some(b=>{const d=b.def;
+    const end=d.path[d.path.length-1];
+    if(d.feedStock)return st.kind==='skewer'&&dist(st.x,st.y,end[0],end[1])<215;
+    if(!d.feed)return false;
+    return d.feed.includes(st.kind)&&dist(st.x,st.y,end[0],end[1])<215;});
+}
+/* estação cuja saída já é coletada por uma esteira comprada */
+function beltCoversOutput(st){
+  if(st.kind==='skewer')return false;
+  return G.belts.some(b=>{const d=b.def;
+    return d.pickup&&dist(st.x,st.y,d.path[0][0],d.path[0][1])<d.pickup;});
+}
 function helperAI(h,dt){
   const g=G;
   const go=(x,y)=>{const d=dist(h.x,h.y,x,y);
@@ -544,27 +558,59 @@ function helperAI(h,dt){
       h.task='fetch';h.fetchKind=front.type;return;
     }
   }
-  const withOut=g.stations.find(s=>s.out>0&&s.kind!=='skewer');
-  if(withOut&&h.items.length===0){
-    if(go(withOut.x,withOut.y+50)){
-      while(withOut.out>0&&h.items.length<h.cap){withOut.out--;h.items.push(withOut.outKind);}}
-    return;
+  /* coletar prontos: alvo travado até chegar, prefere estação sem esteira
+     de saída (senão a esteira rouba o item e o ajudante fica indo e voltando) */
+  if(h.items.length===0){
+    if(h.outSt&&h.outSt.out===0)h.outSt=null;
+    if(!h.outSt){
+      let best=null,bd=1e9;
+      for(const st of g.stations){
+        if(st.out<=0||st.kind==='skewer')continue;
+        if(beltCoversOutput(st)&&st.out<4)continue; // deixa para a esteira, salvo acúmulo
+        const d=dist(h.x,h.y,st.x,st.y);
+        if(d<bd){bd=d;best=st;}
+      }
+      h.outSt=best;
+    }
+    if(h.outSt){
+      if(go(h.outSt.x,h.outSt.y+50)){
+        while(h.outSt.out>0&&h.items.length<h.cap){h.outSt.out--;h.items.push(h.outSt.outKind);}
+        h.outSt=null;
+      }
+      return;
+    }
   }
   const raws=h.items.length;
   if(raws>=h.cap)h.hauling=true;      // mochila cheia: hora de transportar
-  if(raws===0)h.hauling=false;
+  if(raws===0){if(h.hauling)h.wantFish=null;h.hauling=false;h.fullT=0;}
   if(h.hauling){
     const isFish=h.items[0]==='rawfish';
     const target=g.stations.find(s=>(isFish?s.kind==='fishgrill':(s.kind==='grill'||s.kind==='pot'))&&s.slots.some(x=>!x));
-    if(!target)return;               // tudo cheio: espera cozinhar
+    if(!target){                     // tudo cheio: espera um pouco e guarda no armazém
+      h.fullT=(h.fullT||0)+dt;
+      if(h.fullT>3&&g.storeBuilt&&!(h.stashCd>0)){h.fullT=0;h.task='stash';}
+      return;
+    }
+    h.fullT=0;
     if(go(target.x,target.y+50)){
       const si=target.slots.findIndex(x=>!x);
       if(si>=0&&h.items.length){target.slots[si]={t:0};h.items.pop();}}
     return;
   }
-  // colher até encher: escolhe fonte de acordo com estações vazias
-  const needFish=g.stations.some(s=>s.kind==='fishgrill'&&s.slots.some(x=>!x));
-  if(raws===0)h.wantFish=needFish&&Math.random()<.4&&S.zones.includes('pesqueiro');
+  /* colher: só onde nenhuma esteira abastece; decisão fixa por viagem */
+  const needFish=g.stations.some(s=>s.kind==='fishgrill'&&s.slots.some(x=>!x)&&!beltCoversInput(s));
+  const needMeat=g.stations.some(s=>(s.kind==='grill'||s.kind==='pot')&&s.slots.some(x=>!x)&&!beltCoversInput(s));
+  if(!needFish&&!needMeat){
+    if(raws>0){h.hauling=true;return;}
+    // automação cobre tudo: fica de prontidão perto do balcão
+    const idx=g.helpers.indexOf(h);
+    go(COUNTER.x-115-idx*36,COUNTER.y+125);
+    return;
+  }
+  if(h.wantFish===true&&!needFish)h.wantFish=null;
+  if(h.wantFish===false&&!needMeat)h.wantFish=null;
+  if(h.wantFish==null)
+    h.wantFish=needFish&&(!needMeat||Math.random()<.4)&&S.zones.includes('pesqueiro');
   if(h.wantFish){
     if(go(HOLE.x,HOLE.y+34)){h.pickT=(h.pickT||0)-dt;
       if(h.pickT<=0){h.pickT=.5;if(h.items.length<h.cap)h.items.push('rawfish');}}
